@@ -1,9 +1,7 @@
-#r "D:\home\site\wwwroot\QueueChecker\bin\Kuber.NET.dll"
+#r "D:\home\site\wwwroot\<YOUR FUNCTION NAME>\bin\Kuber.NET.dll"
 
 using KuberNET;
 using System.Security.Cryptography.X509Certificates;
-
-private const string SHARED_PATH = "D:/home/site/wwwroot/QueueChecker/cert";
 
 static async Task ScaleKubeDeployment(string server, string accessToken, string deploymentName, int replicasIncreaseCount)
 {
@@ -27,6 +25,6 @@ static async Task CreateKubeJob(string server, string accessToken, string jobNam
 
 private static X509Certificate GetCertificate(string file)
 {
-    var data = File.ReadAllBytes($"{SHARED_PATH}/{file}");
+    var data = File.ReadAllBytes($"{Settings.Function.SharedCertPath}/{file}");
     return new X509Certificate2(data);
 }

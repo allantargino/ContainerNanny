@@ -2,17 +2,13 @@
 #load "./util/Queue.csx"
 #load "./util/Kube.csx"
 
-private static string containerName = "<YOUR CONTAINER NAME>";
-private static string containerImage = "<YOUR CONTAINER IMAGE>";
-private static int pods = 1;
-
 public static async Task Run(string input, TraceWriter log)
 {
     var messageCount = GetMessageCount();
     log.Info($"Messages: {Convert.ToString(messageCount)}");
   
     if (messageCount > 0)
-       await ScaleKubJob(containerName, containerImage, pods);
+       await CreateJob(1);
 }
 
 private static long GetMessageCount(){
@@ -22,8 +18,10 @@ private static long GetMessageCount(){
     return GetQueueMessageCount(connectionString, queueName);
 }
 
-private static async Task ScaleKubJob(string containerName, string containerImage, int pods)
+private static async Task CreateJob(int pods)
 {
+    var containerName = Settings.Kubernetes.ContainerName;
+    var containerImage = Settings.Kubernetes.ContainerImage;
     var server = Settings.Kubernetes.Server;
     var accessToken = Settings.Kubernetes.AccessToken;
     var jobName = $"{containerName}-{DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss")}";
