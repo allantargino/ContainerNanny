@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{7869F379-E069-460A-BF9E-3875DA81618F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Kuber.NET</RootNamespace>
+    <AssemblyName>Kuber.NET</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http.WebRequest" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Interfaces\IKubeScaling.cs" />
+    <Compile Include="Models\Deployments\DeploymentMetadata.cs" />
+    <Compile Include="Models\Jobs\JobTemplate.cs" />
+    <Compile Include="Models\Jobs\JobTemplateSpec.cs" />
+    <Compile Include="Models\Shared\Container.cs" />
+    <Compile Include="Models\Deployments\Deployment.cs" />
+    <Compile Include="Models\Jobs\ImagePullSecret.cs" />
+    <Compile Include="Models\Jobs\JobSpec.cs" />
+    <Compile Include="Models\Deployments\DeploymentTemplateSpec.cs" />
+    <Compile Include="Models\Shared\HttpGet.cs" />
+    <Compile Include="Models\Jobs\Job.cs" />
+    <Compile Include="Models\Deployments\DeploymentLabels.cs" />
+    <Compile Include="Models\Shared\Limits.cs" />
+    <Compile Include="Models\Shared\LivenessProbe.cs" />
+    <Compile Include="Models\Jobs\JobMetadata.cs" />
+    <Compile Include="Models\Shared\Port.cs" />
+    <Compile Include="Models\Shared\ReadinessProbe.cs" />
+    <Compile Include="Models\Shared\Requests.cs" />
+    <Compile Include="Models\Shared\Resources.cs" />
+    <Compile Include="Models\Deployments\DeploymentRollingUpdate.cs" />
+    <Compile Include="Models\Deployments\DeploymentSpec.cs" />
+    <Compile Include="Models\Deployments\DeploymentStrategy.cs" />
+    <Compile Include="Models\Deployments\DeploymentTemplate.cs" />
+    <Compile Include="KuberClient.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Extensions\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
