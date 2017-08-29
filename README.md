@@ -25,15 +25,15 @@ The solution above can be extended to embrace a DevOps process. In the following
 4. [Function Development](./docs/4_FunctionDevelopment.md)
 5. [Deployment and Jobs](./docs/5_DeploymentandJobs.md)
 
-## Projects (/src):
+## Projects 
 
-### Library
+### Library (/src)
 This .NET Full library implements:
 * Authentication
 * Deployments scaling
 * Jobs creation
 
-### Function
+### Azure Function (/src)
 The C# Azure Function with the following code snippets:
 * Kube.csx: handles calls to Kuber.NET private assembly
 * Queue.csx: handles calls to Service Bus Queue using its SDK
