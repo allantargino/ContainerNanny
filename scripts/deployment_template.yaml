@@ -1,0 +1,16 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: queueconsumer
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: queueconsumer
+    spec:
+      containers:
+      - name: queueconsumer
+        image: poc.azurecr.io/app/queueconsumer
+      imagePullSecrets:
+      - name: pocsecret

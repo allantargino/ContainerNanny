@@ -1,0 +1,15 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: queueconsumer
+spec:
+  template:
+    metadata:
+      name: queueconsumer
+    spec:
+      containers:
+      - name: queueconsumer
+        image: poc.azurecr.io/app/queueconsumer
+      imagePullSecrets:
+      - name: pocsecret
+      restartPolicy: Never
