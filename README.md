@@ -1,5 +1,5 @@
 # Container Nanny
-Monitoring solution for container jobs scale
+Monitoring solution for autoscaling Kubernetes containers jobs based on Service Bus Queue size.
 
 ## Architecture
 
