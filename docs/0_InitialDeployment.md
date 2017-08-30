@@ -207,6 +207,20 @@ http://localhost:8001/api/v1/proxy/namespaces/default/services/kubeopsview-kube-
 
 ![Image of kubeopsview creating pod](https://github.com/fabioharams/kubernetes/blob/master/img/kubeops2.PNG)
 
+UPDATE: If you want to manually deploy Kube-Ops-View without HELM just follow the procedures bellow:
+
+
+* Clone repository
+```
+git clone https://github.com/hjacobs/kube-ops-view
+```
+
+* Install Kube-Ops-View using Kubectl
+```
+kubectl apply -f kube-ops-view/deploy
+```
+
+
 
 ## Extra - How to scale Agents ##
 

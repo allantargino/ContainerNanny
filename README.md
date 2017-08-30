@@ -19,6 +19,7 @@ The solution above can be extended to embrace a DevOps process. In the following
 
 ## Documentation (/docs):
 
+0. [Initial Deployment](./docs/0_InitialDeployment.md)
 1. [Kubernetes Setup](./docs/1_KubernetesSetup.md)
 2. [Certificate Setup](./docs/2_CertificateSetup.md)
 3. [SDK Development](./docs/3_SDKDevelopment.md)
