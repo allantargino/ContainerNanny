@@ -1,0 +1,6 @@
+﻿{
+  "ServiceBusConnectionString": "Endpoint=sb://YOURSERVICEBUS.servicebus.windows.net/;SharedAccessKeyName=YOURSASNAME;SharedAccessKey=YOURSASKEY",
+  "ServiceBusQueueName": "YOURQUEUE",
+  "ServiceBusMessageDelay": 2500,
+  "KubernetesConfig": "./config"
+}

@@ -1,0 +1,6 @@
+﻿{
+  "ServiceBusConnectionString": "Endpoint=sb://YOURSERVICEBUS.servicebus.windows.net/;SharedAccessKeyName=YOURSASNAME;SharedAccessKey=YOURSASKEY",
+  "ServiceBusQueueName": "YOURQUEUE",
+  "MaxIdleSeconds": "5",
+  "ThreadSleepTime": "1000"
+}

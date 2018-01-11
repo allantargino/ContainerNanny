@@ -24,14 +24,12 @@ Data
 ====
 ca.crt:         1182 bytes
 namespace:      7 bytes
-token:          eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJkZWZhdWx0Iiwia3ViZXJuZXRlcy
-[...]
-jOGmjd7dBr57Ob_we4mWEGjHqlD565jlc7doFnc3c0-0UoToNiQAzqgrDJcotdTo6S_RnmweDSHrtiGKEtxdY46au3bZQHu84bB2i-LgjjCJs7NC9NT2yFegsH_NSH0yj-vrnfGZ7k52y0PequuXCSqlN4jQE5RnALv2G2qGXnI9nOz8o1U7eT432NrOV3r6ctKeTjrKOf5_m5ONbgaHAuXb_wfLAE-hPqiJRkWAX36VNt7qlLk9T_Rf8Dh2DcdE2qLso7Si9xE4SgUnkLqZC7bKgtx1OaxDT8CUA
+token:          eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJkZWZhdWx0Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZWNyZXQubmFtZSI6ImRlZmF1bHQtdG9rZW4tbDlyazQiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC5uYW1lIjoiZGVmYXVsdCIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50LnVpZCI6IjgwODI2ZjJiLTgxZjAtMTFlNy1hYmRiLTAwMGQzYTAzYTI3MyIsInN1YiI6InN5c3RlbTpzZXJ2aWNlYWNjb3VudDpkZWZhdWx0OmRlZmF1bHQifQ.U8P6xlVBq-84R06Npg3OHSxb6Q0ZZvo51PbmlI71y2yq2rBlQjOGmjd7dBr57Ob_we4mWEGjHqlD565jlc7doFnc3c0-0UoToNiQAzqgrDJcotdTo6S_RnmweDSHrtiGKEtxdY46au3bZQHu84bB2i-LgjjCJs7NC9NT2yFegsH_NSH0yj-vrnfGZ7k52y0PequuXCSqlN4jQE5RnALv2G2qGXnI9nOz8o1U7eT432NrOV3r6ctKeTjrKOf5_m5ONbgaHAuXb_wfLAE-hPqiJRkWAX36VNt7qlLk9T_Rf8Dh2DcdE2qLso7Si9xE4SgUnkLqZC7bKgtx1OaxDT8CUA
 ```
 
 > **- IMPORTANT:** Store this **Static Token**, we are going to use it on the next sections.
 
-If you use a jwt token decoder, like https://jwt.io/, the decoded payload will be similar to:
+If you use a jwt token decoder, like https://jwt.io/, the decoded payload will be:
 
 ```json
 {
@@ -39,7 +37,7 @@ If you use a jwt token decoder, like https://jwt.io/, the decoded payload will b
   "kubernetes.io/serviceaccount/namespace": "default",
   "kubernetes.io/serviceaccount/secret.name": "default-token-l9rk4",
   "kubernetes.io/serviceaccount/service-account.name": "default",
-  "kubernetes.io/serviceaccount/service-account.uid": "9e8a663b-f208-4996-8e1f-c241549370d4",
+  "kubernetes.io/serviceaccount/service-account.uid": "80826f2b-81f0-11e7-abdb-000d3a03a273",
   "sub": "system:serviceaccount:default:default"
 }
 ```
@@ -89,8 +87,8 @@ If you would like to turn off curl is verification of the certificate, use
 
 We can see (using --verbose flag in curl) that behavior during the handshake:
 ```
-*   Trying 123.123.23.254...
-* Connected to pocmgmt.eastus2.cloudapp.azure.com (123.123.23.254) port 443 (#0)
+*   Trying 13.68.23.254...
+* Connected to pocsaraivamgmt.eastus2.cloudapp.azure.com (13.68.23.254) port 443 (#0)
 * found 173 certificates in /etc/ssl/certs/ca-certificates.crt
 * found 694 certificates in /etc/ssl/certs
 * ALPN, offering http/1.1
@@ -110,18 +108,18 @@ apiVersion: v1
 clusters:
 - cluster:
     certificate-authority-data: *data*
-    server: https://pocmgmt.eastus2.cloudapp.azure.com
-  name: pocmgmt
+    server: https://pocsaraivamgmt.eastus2.cloudapp.azure.com
+  name: pocsaraivamgmt
 contexts:
 - context:
-    cluster: pocmgmt
-    user: pocmgmt-admin
-  name: pocmgmt
-current-context: pocmgmt
+    cluster: pocsaraivamgmt
+    user: pocsaraivamgmt-admin
+  name: pocsaraivamgmt
+current-context: pocsaraivamgmt
 kind: Config
 preferences: {}
 users:
-- name: pocmgmt-admin
+- name: pocsaraivamgmt-admin
   user:
     client-certificate-data: *data*
     client-key-data: *data*
@@ -129,9 +127,7 @@ users:
 
 Every certificate data in this config file is encoded in base64. It carries Certification Authority (CA, Root) and both public and private client certificates. To decoded it, you should use some base64 util. For instance, the following CA certificate data:
 ```
-LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tDQpNSUlETURDQ0FoaWdBd0lCQWdJSUIrVU54R1k2NDRVd0RRWUpLb1pJaHZjTkFRRUxCUUF3RXpFUk1BOEdBMVVFQXd3SVlXTnphemh6DQpZMkV3SGhjTk1UY3dPREUxTURBd01EQXdXaGNOTVRrd09ERTFNREF3TURBd1dqQVRNUkV3RHdZRFZRUUREQWhoWTNOck9ITmpZVENDDQpBU0l3RFFZSktvWklodmNOQVFFQkJRQURn
-[...]
-SEd3UC9hSndrYmplWlErbzNsDQpjL0svMm9VY2RoTkw1MkRyNzB2RXF4WVNsb29FeEtyUWlvenhxZy9vbE5sMEVxby9odm9NcjQya212eXVDTmZnT0JSMjBjNG1KZG1XDQpLTXNMUUFLdkZtbndNM1FJa0hNQlhlanZhSHpyNFVsd29uRFpoN1MwWTlVVkErZ0luamI2M1ZIenhZVGlWaitvTGJMWnQ5YjNGQW9DDQpTS1A1NC9YUUNGNUk2S1V4OTRqSFdERytnTDZuOHAyM3NaTTNocWFERWVIajZ0dDFXR292MStST0hRVlh5T0I4OW9TMHdhbkZXTTRaDQpqbVJzUDMzSjN4djZlWmVlVHVka3lrOC9UT1EybEE9PQ0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQ0K
+LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tDQpNSUlETURDQ0FoaWdBd0lCQWdJSUIrVU54R1k2NDRVd0RRWUpLb1pJaHZjTkFRRUxCUUF3RXpFUk1BOEdBMVVFQXd3SVlXTnphemh6DQpZMkV3SGhjTk1UY3dPREUxTURBd01EQXdXaGNOTVRrd09ERTFNREF3TURBd1dqQVRNUkV3RHdZRFZRUUREQWhoWTNOck9ITmpZVENDDQpBU0l3RFFZSktvWklodmNOQVFFQkJRQURnZ0VQQURDQ0FRb0NnZ0VCQUllbm5COTVqcUtWcks5WUo4UFRxZjAvTnJLbUR2YmZ5WHc2DQpLZFh5aXV2RFJ2c050TmdxRWpGcnFHeXk5OWdIZm9jMWRKODNkR2kzM0o3Rkd4U2hIVzlqRlZxRlJybDN0RGlldzBranNVZFFQZGhDDQpaZHVyTmlXaklkdDZ0U204YWx1U1ZDamk5eFhpUHVhUlRyMnZaT1g0c09UU0Q5RE9CWEtON0RDaUFKWkIxZEhBZ2duUDhwdGN5VEEvDQo4ZnFwK0JYRGlmR2RRNTg1N24wV25ZempWRTJESnl6Qm9oNTJYMis0cHY1TGtadXdtWVpPcjBSVHl6Q1dBeUR5dS8zakh3UlBObTZTDQpuYWNWSWpDNFJMSWMyR1d1NnRkYU0zaHROZnB1dmdFTnVOL3NYbmY5OElPTmc2aG11UFNyTjBmSnJlZ3FWTHdqaytlaFhKMzhoT3Y2DQpJczBDQXdFQUFhT0JoekNCaERCQ0JnTlZIU01FT3pBNWdCUVhPQW5waTkxV2JKMXRBYVRNUDVYT3ZYYzgyS0VYcEJVd0V6RVJNQThHDQpBMVVFQXd3SVlXTnphemh6WTJHQ0NBZmxEY1JtT3VPRk1CMEdBMVVkRGdRV0JCUVhPQW5waTkxV2JKMXRBYVRNUDVYT3ZYYzgyREFQDQpCZ05WSFJNQkFmOEVCVEFEQVFIL01BNEdBMVVkRHdFQi93UUVBd0lDcERBTkJna3Foa2lHOXcwQkFRc0ZBQU9DQVFFQU1nL0dMTWdZDQpKaXBiOHRySmNEYzVpM3dhdFRrSzA3SzdDMmdqcCthQ3BPZlBSMkxQckdnM2lPQTc2dGt4ZHFZVVRuSEd3UC9hSndrYmplWlErbzNsDQpjL0svMm9VY2RoTkw1MkRyNzB2RXF4WVNsb29FeEtyUWlvenhxZy9vbE5sMEVxby9odm9NcjQya212eXVDTmZnT0JSMjBjNG1KZG1XDQpLTXNMUUFLdkZtbndNM1FJa0hNQlhlanZhSHpyNFVsd29uRFpoN1MwWTlVVkErZ0luamI2M1ZIenhZVGlWaitvTGJMWnQ5YjNGQW9DDQpTS1A1NC9YUUNGNUk2S1V4OTRqSFdERytnTDZuOHAyM3NaTTNocWFERWVIajZ0dDFXR292MStST0hRVlh5T0I4OW9TMHdhbkZXTTRaDQpqbVJzUDMzSjN4djZlWmVlVHVka3lrOC9UT1EybEE9PQ0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQ0K
 ```
 After the command:
 ```bash
@@ -144,7 +140,13 @@ MIIDMDCCAhigAwIBAgIIB+UNxGY644UwDQYJKoZIhvcNAQELBQAwEzERMA8GA1UEAwwIYWNzazhz
 Y2EwHhcNMTcwODE1MDAwMDAwWhcNMTkwODE1MDAwMDAwWjATMREwDwYDVQQDDAhhY3NrOHNjYTCC
 ASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAIennB95jqKVrK9YJ8PTqf0/NrKmDvbfyXw6
 KdXyiuvDRvsNtNgqEjFrqGyy99gHfoc1dJ83dGi33J7FGxShHW9jFVqFRrl3tDiew0kjsUdQPdhC
-[...]
+ZdurNiWjIdt6tSm8aluSVCji9xXiPuaRTr2vZOX4sOTSD9DOBXKN7DCiAJZB1dHAggnP8ptcyTA/
+8fqp+BXDifGdQ5857n0WnYzjVE2DJyzBoh52X2+4pv5LkZuwmYZOr0RTyzCWAyDyu/3jHwRPNm6S
+nacVIjC4RLIc2GWu6tdaM3htNfpuvgENuN/sXnf98IONg6hmuPSrN0fJregqVLwjk+ehXJ38hOv6
+Is0CAwEAAaOBhzCBhDBCBgNVHSMEOzA5gBQXOAnpi91WbJ1tAaTMP5XOvXc82KEXpBUwEzERMA8G
+A1UEAwwIYWNzazhzY2GCCAflDcRmOuOFMB0GA1UdDgQWBBQXOAnpi91WbJ1tAaTMP5XOvXc82DAP
+BgNVHRMBAf8EBTADAQH/MA4GA1UdDwEB/wQEAwICpDANBgkqhkiG9w0BAQsFAAOCAQEAMg/GLMgY
+Jipb8trJcDc5i3watTkK07K7C2gjp+aCpOfPR2LPrGg3iOA76tkxdqYUTnHGwP/aJwkbjeZQ+o3l
 c/K/2oUcdhNL52Dr70vEqxYSlooExKrQiozxqg/olNl0Eqo/hvoMr42kmvyuCNfgOBR20c4mJdmW
 KMsLQAKvFmnwM3QIkHMBXejvaHzr4UlwonDZh7S0Y9UVA+gInjb63VHzxYTiVj+oLbLZt9b3FAoC
 SKP54/XQCF5I6KUx94jHWDG+gL6n8p23sZM3hqaDEeHj6tt1WGov1+ROHQVXyOB89oS0wanFWM4Z

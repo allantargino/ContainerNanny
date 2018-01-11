@@ -1,0 +1,16 @@
+﻿apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: queuechecker
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: queuechecker
+    spec:
+      containers:
+      - name: queuechecker
+        image: yourendpoint.azurecr.io/app/queuechecker
+      imagePullSecrets:
+      - name: yourkey

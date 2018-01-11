@@ -1,9 +1,0 @@
-{
-  "frameworks": {
-    "net46":{
-      "dependencies": {
-        "WindowsAzure.ServiceBus": "4.1.3"
-      }
-    }
-   }
-}

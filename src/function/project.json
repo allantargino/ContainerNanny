@@ -1,0 +1,14 @@
+{
+  "frameworks": {
+    "netcoreapp2.0": {
+      "dependencies": {
+        "Kuber.NETCORE": "1.0.0-beta",
+        "kubernetesclient": "0.3.0-beta",
+        "Microsoft.Azure.ServiceBus": "2.0.0",
+        "Microsoft.Azure.WebJobs": "3.0.0-beta4",
+        "Microsoft.Azure.WebJobs.Extensions.Http": "3.0.0-beta4",
+        "Microsoft.CSharp": "4.4.0"
+      }
+    }
+  }
+}

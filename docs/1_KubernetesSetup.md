@@ -123,7 +123,7 @@ You will see the token (used to securely connect to K8s cluster) and the new sec
 To install Docker just follow these steps on Ubuntu VM. Instructions from official Docker website [here](https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/#install-docker-ce). Docker is required to build projects from Jenkins.
 
 
-1) Add Docker's official GPG key
+1) Update the apt package index
 ```
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 ```
@@ -137,9 +137,9 @@ $ sudo apt-get install \
     software-properties-common
 ```
 
-3) Set up the repository
+3) Add Docker’s official GPG key:
 ```
-sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 ```
 
 4) Update the apt package index

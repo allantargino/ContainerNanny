@@ -1,5 +1,5 @@
-# Container Nanny
-Monitoring solution for autoscaling Kubernetes containers jobs based on Service Bus Queue size.
+# Kuber.NET
+Monitoring solution for container jobs scale
 
 ## Architecture
 
@@ -26,15 +26,15 @@ The solution above can be extended to embrace a DevOps process. In the following
 4. [Function Development](./docs/4_FunctionDevelopment.md)
 5. [Deployment and Jobs](./docs/5_DeploymentandJobs.md)
 
-## Projects 
+## Projects (/src):
 
-### Library (/src)
+### Library
 This .NET Full library implements:
 * Authentication
 * Deployments scaling
 * Jobs creation
 
-### Azure Function (/src)
+### Function
 The C# Azure Function with the following code snippets:
 * Kube.csx: handles calls to Kuber.NET private assembly
 * Queue.csx: handles calls to Service Bus Queue using its SDK

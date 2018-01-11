@@ -166,6 +166,20 @@ chmod 700 get_helm.sh
 
 After the installation you can check if everything is going fine. 
 
+UPDATE: You can manually install Kube-Ops-View without HELM as a deployment method. Follow these steps:
+
+
+1) Clone the repo from Kube-Ops-View
+```
+git clone https://github.com/hjacobs/kube-ops-view
+```
+2) Create Kube-Ops-View using kubectl
+```
+kubectl apply -f kube-ops-view/deploy
+```
+
+
+
 ### List Charts available ###
 ```bash
 helm search
@@ -206,20 +220,6 @@ http://localhost:8001/api/v1/proxy/namespaces/default/services/kubeopsview-kube-
 ![Image of kubeopsview](https://github.com/fabioharams/kubernetes/blob/master/img/kubeops.PNG)
 
 ![Image of kubeopsview creating pod](https://github.com/fabioharams/kubernetes/blob/master/img/kubeops2.PNG)
-
-UPDATE: If you want to manually deploy Kube-Ops-View without HELM just follow the procedures bellow:
-
-
-* Clone repository
-```
-git clone https://github.com/hjacobs/kube-ops-view
-```
-
-* Install Kube-Ops-View using Kubectl
-```
-kubectl apply -f kube-ops-view/deploy
-```
-
 
 
 ## Extra - How to scale Agents ##
