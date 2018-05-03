@@ -11,6 +11,23 @@ spec:
     spec:
       containers:
       - name: queuechecker
-        image: yourendpoint.azurecr.io/app/queuechecker
+        image: <Nanny Container Image>
+        env:
+        - name: CONNECTION_STRING
+          value: <Your Connection String>
+        - name: KUBE_CONIFG
+          value: <Your Kube Config>
+        - name: QUEUE_NAME
+          value: pdftoimage
+        - name: CONTAINER_NAME
+          value: pdftoimage
+        - name: CONTAINER_IMAGE
+          value: <Container Image that will consume the queue>
+        - name: K8S_NAMESPACE
+          value: <K8 Namespace>
+        - name: K8S_SECRET
+          value: <Private Container Repository Secret>
+		- name: MAX_CONTAINERS
+          value: 10
       imagePullSecrets:
-      - name: yourkey
+      - name: atldevazure

@@ -1,5 +1,5 @@
 ﻿{
-  "ServiceBusConnectionString": "Endpoint=sb://YOURSERVICEBUS.servicebus.windows.net/;SharedAccessKeyName=YOURSASNAME;SharedAccessKey=YOURSASKEY",
-  "ServiceBusQueueName": "YOURQUEUE",
+  "ConnectionString": "Endpoint=sb://YOURSERVICEBUS.servicebus.windows.net/;SharedAccessKeyName=YOURSASNAME;SharedAccessKey=YOURSASKEY",
+  "QueueName": "YOURQUEUE",
   "KubernetesConfig": "./config"
 }

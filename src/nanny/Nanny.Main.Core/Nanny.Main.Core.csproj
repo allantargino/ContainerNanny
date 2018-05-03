@@ -9,6 +9,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\library\Nanny.Kubernetes\Nanny.Kubernetes.csproj" />
     <ProjectReference Include="..\..\library\Nanny.ServiceBus\Nanny.ServiceBus.csproj" />
+    <ProjectReference Include="..\..\Nanny.StorageQueue\Nanny.StorageQueue.csproj" />
   </ItemGroup>
 
   <ItemGroup>
