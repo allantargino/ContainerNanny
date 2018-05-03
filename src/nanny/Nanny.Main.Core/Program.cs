@@ -73,7 +73,7 @@ namespace Nanny.Main.Core
                 var currentRunningJobs = await GetCurrentRunningJobs();
                 Console.WriteLine($"I have found {messageCount} jobs in Kubernetes");
 
-                if (await isResourceAvailableAsync())
+                if (await isResourceAvailableAsync() && currentRunningJobs < containerLimit)
                 {
 
                     var result = rule.GetJobScalingResult(messageCount, currentRunningJobs);
