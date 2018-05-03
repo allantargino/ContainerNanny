@@ -24,7 +24,7 @@ namespace Nanny.Kubernetes
 
         public KubeClient(string kubeconfigPath) : this(new FileInfo(kubeconfigPath)) { }
 
-        public async Task<Apiappsv1beta1Deployment> GetDeploymentAsync(string deployment, string _namespace = "default")
+        public async Task<V1Deployment> GetDeploymentAsync(string deployment, string _namespace = "default")
         {
             if (string.IsNullOrEmpty(deployment)) throw new ArgumentException(nameof(deployment));
 
@@ -32,15 +32,17 @@ namespace Nanny.Kubernetes
 
         }
 
-        public async Task<Apiappsv1beta1Deployment> UpdateDeploymentAsync(Apiappsv1beta1Deployment deployment)
+        public async Task<V1Deployment> UpdateDeploymentAsync(V1Deployment deployment)
         {
             if (deployment == null) throw new ArgumentNullException(nameof(deployment));
 
-            return await _k8client.PatchNamespacedDeploymentAsync(deployment, deployment.Metadata.Name, deployment.Metadata.NamespaceProperty);
+            var patch = new V1Patch(deployment);
+          
+            return await _k8client.PatchNamespacedDeploymentAsync(patch, deployment.Metadata.Name, deployment.Metadata.NamespaceProperty);
 
         }
 
-        public async Task<Apibatchv1Job> CreateJobAsync(string jobName, int parallelism, int completions, string containerName, string containerImage, string imagePullSecret, string _namespace = "default")
+        public async Task<V1Job> CreateJobAsync(string jobName, int parallelism, int completions, string containerName, string containerImage, string imagePullSecret, string _namespace = "default")
         {
             if (string.IsNullOrEmpty(jobName)) throw new ArgumentNullException(nameof(jobName));
             if (string.IsNullOrEmpty(containerName)) throw new ArgumentNullException(nameof(containerName));
@@ -50,29 +52,29 @@ namespace Nanny.Kubernetes
             if (completions < 1) throw new ArgumentOutOfRangeException(nameof(completions));
 
 
-            var job = new Apibatchv1Job();
+            var job = new V1Job();
             job.Metadata = new V1ObjectMeta()
             {
                 Name = jobName
             };
 
-            job.Spec = new Apibatchv1JobSpec() {
+            job.Spec = new V1JobSpec() {
                 Parallelism = parallelism,
                 Completions = completions,
-                Template = new Corev1PodTemplateSpec()
+                Template = new V1PodTemplateSpec()
                 {
-                    Spec = new Corev1PodSpec()
+                    Spec = new V1PodSpec()
                     {
-                        Containers = new List<Corev1Container>() {
-                        new Corev1Container(){
+                        Containers = new List<V1Container>() {
+                        new V1Container(){
                             Name = containerName,
                             Image = containerImage
                         }
                     },
                         RestartPolicy = "Never",
-                        ImagePullSecrets = new List<Corev1LocalObjectReference>()
+                        ImagePullSecrets = new List<V1LocalObjectReference>()
                     {
-                        new Corev1LocalObjectReference(){
+                        new V1LocalObjectReference(){
                             Name = imagePullSecret
                         }
                     }
