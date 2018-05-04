@@ -12,5 +12,8 @@ namespace Nanny.Kubernetes.Interfaces
 
         //Jobs
         Task<V1Job> CreateJobAsync(string jobName, int parallelism, int completions, string containerName, string containerImage, string imagePullSecret, string _namespace);
+
+        //Kluster
+        Task<bool> isResourceAvailableAsync();
     }
 }

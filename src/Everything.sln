@@ -27,6 +27,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Queue.Web", "queue\Queue.We
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nanny.StorageQueue", "Nanny.StorageQueue\Nanny.StorageQueue.csproj", "{BC82BA39-0584-49CD-98A0-DF7F1F02BE08}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QueueStorage.Consumer", "QueueStorage.Consumer\QueueStorage.Consumer.csproj", "{9267D3C6-C2AF-4D2B-A1F3-BCBD84C35C54}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,6 +83,10 @@ Global
 		{BC82BA39-0584-49CD-98A0-DF7F1F02BE08}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BC82BA39-0584-49CD-98A0-DF7F1F02BE08}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BC82BA39-0584-49CD-98A0-DF7F1F02BE08}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9267D3C6-C2AF-4D2B-A1F3-BCBD84C35C54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9267D3C6-C2AF-4D2B-A1F3-BCBD84C35C54}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9267D3C6-C2AF-4D2B-A1F3-BCBD84C35C54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9267D3C6-C2AF-4D2B-A1F3-BCBD84C35C54}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

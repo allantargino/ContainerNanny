@@ -1,0 +1,10 @@
+﻿{
+  "GS_BIN": "gs",
+  "GS_BIN_WIN": "C:\\Program Files\\gs\\gs9.23_\\bin\\gswin64c.exe",
+  "TEMP_FOLDER": "pdfimages",
+  "IMAGE_RESOLUTION": "4096",
+  "STORAGE_ACCOUNT": "DefaultEndpointsProtocol=https;AccountName=imagepdfcasacivil;AccountKey=AdCG0SBxp81sGwi8fcKPC1usikIlsS/jrlrun4XEV4RSdEIIabBMGzefHOq2MTXis1lA1KhNyT0tpptusCn8pw==;EndpointSuffix=core.windows.net",
+  "QUEUE_NAME": "pdftoimagehigh",
+  "IMAGE_STORAGE_ACCOUNT": "DefaultEndpointsProtocol=https;AccountName=imagepdfcasacivil;AccountKey=AdCG0SBxp81sGwi8fcKPC1usikIlsS/jrlrun4XEV4RSdEIIabBMGzefHOq2MTXis1lA1KhNyT0tpptusCn8pw==;EndpointSuffix=core.windows.net",
+  "IMAGE_CONTAINER_NAME": "pdfimageshigh"
+}
