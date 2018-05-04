@@ -56,7 +56,7 @@ namespace Nanny.Main.Core
 
             kube = new KubeClient(kubeConfig);
 
-            rule = new IncrementRule(new TimeSpan(0, 0, 10)); // Scaling rule
+            rule = new IncrementRule(new TimeSpan(0, 1, 0)); // Scaling rule
 
             await CheckQueue(rule, queueName);
         }
@@ -70,7 +70,7 @@ namespace Nanny.Main.Core
                 var messageCount = await GetMessageCount(queueName);
                 Console.WriteLine($"There are {messageCount} messages in the queue {queueName}");
 
-                var currentRunningJobs = await GetCurrentRunningJobs();
+                var currentRunningJobs = await GetCurrentRunningJobs(k8Namespace);
                 Console.WriteLine($"I have found {messageCount} jobs in Kubernetes");
 
                 if (await isResourceAvailableAsync() && currentRunningJobs < containerLimit)
