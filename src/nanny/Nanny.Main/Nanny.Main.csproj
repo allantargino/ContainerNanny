@@ -161,16 +161,20 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\library\Nanny.Common\Nanny.Common.csproj">
-      <Project>{f7e2ceae-9c2b-44a6-a295-ed6e6f32dbad}</Project>
+      <Project>{5a422832-74a1-46af-a516-4fb07b395683}</Project>
       <Name>Nanny.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\library\Nanny.Kubernetes\Nanny.Kubernetes.csproj">
-      <Project>{24db3a27-8195-4560-8603-166667415e70}</Project>
+      <Project>{40f9ff84-4596-4ba3-8b35-ca4c5f12f5c7}</Project>
       <Name>Nanny.Kubernetes</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\library\Nanny.ServiceBus\Nanny.ServiceBus.csproj">
-      <Project>{ef4ce7e2-fc92-401f-98ff-feb7464878c0}</Project>
+      <Project>{c0065133-195c-4de9-8259-4bc5dc6ff9ae}</Project>
       <Name>Nanny.ServiceBus</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Nanny.StorageQueue\Nanny.StorageQueue.csproj">
+      <Project>{bc82ba39-0584-49cd-98a0-df7f1f02be08}</Project>
+      <Name>Nanny.StorageQueue</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

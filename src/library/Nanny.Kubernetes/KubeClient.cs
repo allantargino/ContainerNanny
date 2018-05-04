@@ -37,7 +37,7 @@ namespace Nanny.Kubernetes
             if (deployment == null) throw new ArgumentNullException(nameof(deployment));
 
             var patch = new V1Patch(deployment);
-          
+
             return await _k8client.PatchNamespacedDeploymentAsync(patch, deployment.Metadata.Name, deployment.Metadata.NamespaceProperty);
 
         }
@@ -58,7 +58,8 @@ namespace Nanny.Kubernetes
                 Name = jobName
             };
 
-            job.Spec = new V1JobSpec() {
+            job.Spec = new V1JobSpec()
+            {
                 Parallelism = parallelism,
                 Completions = completions,
                 Template = new V1PodTemplateSpec()
@@ -68,7 +69,8 @@ namespace Nanny.Kubernetes
                         Containers = new List<V1Container>() {
                         new V1Container(){
                             Name = containerName,
-                            Image = containerImage
+                            Image = containerImage,
+                            ImagePullPolicy = "Always"
                         }
                     },
                         RestartPolicy = "Never",
@@ -79,7 +81,7 @@ namespace Nanny.Kubernetes
                         }
                     }
 
-                    }   
+                    }
                 }
             };
 
@@ -89,6 +91,12 @@ namespace Nanny.Kubernetes
         public async Task<int> GetActivePodCountFromNamespaceAsync(string _namespace = "default")
         {
             return (await _k8client.ListNamespacedPodAsync(_namespace, fieldSelector: "status.phase=Running")).Items.Count;
+        }
+
+        public async Task<bool> isResourceAvailableAsync()
+        {
+            //TODO: Call the api to check if there is resources (CPU Request and Memory) available to the cluster
+            return await Task.FromResult(true);
         }
 
         #region IDisposable Support
