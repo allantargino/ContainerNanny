@@ -13,9 +13,12 @@ namespace QueueStorage.Consumer
 {
     class Program
     {
+        const int MAX_DEQUEUE_COUNT = 5;
+
         static string _gs;
         static string _tempFolder;
         static string _resolution;
+        static string _queueName;
 
         static JsonConfiguration settings;
 
@@ -59,6 +62,12 @@ namespace QueueStorage.Consumer
 
                 if (_message == null)
                     return;
+
+                if (_message.DequeueCount > MAX_DEQUEUE_COUNT)
+                {
+                    UnQueueMessageAsync(_message);
+                    return;
+                }
 
                 var pdfFileUrl = _message.AsString;
 
@@ -136,6 +145,37 @@ namespace QueueStorage.Consumer
             }
         }
 
+        /// <summary>
+        /// To avoid the process getting stuck, remove the message from the queue but save it to be analised
+        /// </summary>
+        /// <param name="message"></param>
+        private static async void UnQueueMessageAsync(CloudQueueMessage message)
+        {
+            var undequeue = $"undequeue_{_queueName}";
+
+            var queue = await CreateQueueAsync(undequeue);
+
+            await queue.AddMessageAsync(message);
+
+            await _queue.DeleteMessageAsync(message);
+        }
+
+        private static async Task<CloudQueue> CreateQueueAsync(string name)
+        {
+            if (string.IsNullOrWhiteSpace(name)) throw new ArgumentException("Name is empty!");
+            if (_queueClient == null) throw new Exception("_queueClient is null!");
+
+            var queue = _queueClient.GetQueueReference(name);
+
+            try
+            {
+                await queue.CreateIfNotExistsAsync();
+            }
+            catch (Exception ex) { throw new Exception($"Error creating the queue {name} : {ex.Message}"); }
+
+            return queue;
+        }
+
         private static void Initialize()
         {
             _semaphore = new SemaphoreSlim(1, 1);
@@ -149,7 +189,7 @@ namespace QueueStorage.Consumer
                 Directory.CreateDirectory(_tempFolder);
 
             var connectionString =  settings["STORAGE_ACCOUNT"];
-            var queueName =  settings["QUEUE_NAME"];
+            _queueName =  settings["QUEUE_NAME"];
 
             if (string.IsNullOrWhiteSpace(connectionString)) throw new ArgumentException("connectionString is empty");
 
@@ -163,7 +203,7 @@ namespace QueueStorage.Consumer
             }
 
             _queueClient = _storageAccount.CreateCloudQueueClient();
-            _queue = GetQueueAsync(queueName).GetAwaiter().GetResult();
+            _queue = GetQueueAsync(_queueName).GetAwaiter().GetResult();
         }
 
         private static async Task<CloudQueue> GetQueueAsync(string name)
