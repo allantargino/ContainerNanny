@@ -151,7 +151,7 @@ namespace QueueStorage.Consumer
         /// <param name="message"></param>
         private static async void UnQueueMessageAsync(CloudQueueMessage message)
         {
-            var undequeue = $"undequeue_{_queueName}";
+            var undequeue = $"undequeue{_queueName}";
 
             var queue = await CreateQueueAsync(undequeue);
 
