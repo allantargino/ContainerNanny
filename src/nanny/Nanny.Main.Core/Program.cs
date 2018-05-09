@@ -1,19 +1,17 @@
 ﻿using Nanny.Common.Interfaces;
-using Nanny.Common.Models;
-using Nanny.Common.Utils;
 using Nanny.Kubernetes;
 using Nanny.Main.Core.Rules;
 using Nanny.ServiceBus;
 using Nanny.StorageQueue;
 using System;
-using System.IO;
 using System.Threading.Tasks;
 
 namespace Nanny.Main.Core
 {
     public class Program
     {
-        static JsonConfiguration settings;
+        static Config _config = null;
+
         static KubeClient kube;
         static IScalableRule rule;
         static IQueueClient queueClient;
@@ -27,20 +25,20 @@ namespace Nanny.Main.Core
 
         static async Task Main(string[] args)
         {
-            settings = JsonConfiguration.Build("./settings.json");
+            _config = new Config(args,"dev");
 
-            var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
-            var kubeConfig = Environment.GetEnvironmentVariable("KUBE_CONIFG");
-            queueName = Environment.GetEnvironmentVariable("QUEUE_NAME");
+            var connectionString = _config.Get("QUEUE_CONNECTION_STRING");
+            var kubeConfig = _config.Get("K8S_CONIFG");
+            queueName = _config.Get("QUEUE_NAME");
 
-            containerName = Environment.GetEnvironmentVariable("CONTAINER_NAME");
-            containerImage = Environment.GetEnvironmentVariable("CONTAINER_IMAGE");
-            k8Namespace = Environment.GetEnvironmentVariable("K8S_NAMESPACE");
-            k8Secret = Environment.GetEnvironmentVariable("K8S_SECRET");
+            containerName = _config.Get("JOB_CONTAINER_NAME");
+            containerImage = _config.Get("JOB_CONTAINER_IMAGE");
+            k8Namespace = _config.Get("K8S_NAMESPACE");
+            k8Secret = _config.Get("K8S_CR_SECRET");
 
             try
             {
-                containerLimit = int.Parse(Environment.GetEnvironmentVariable("MAX_CONTAINERS"));
+                containerLimit = int.Parse(_config.Get("JOB_MAX_POD"));
             }
             catch
             {

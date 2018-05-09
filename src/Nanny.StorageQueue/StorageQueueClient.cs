@@ -57,10 +57,14 @@ namespace Nanny.StorageQueue
                 await _queue.FetchAttributesAsync();
                 count = _queue.ApproximateMessageCount;
 
-                List<CloudQueueMessage> messages = (List<CloudQueueMessage>) await _queue.PeekMessagesAsync(count.Value);
+                if (count > 0)
+                {
 
-                if (messages.Count < 32)
-                    count = messages.Count;
+                    List<CloudQueueMessage> messages = (List<CloudQueueMessage>)await _queue.PeekMessagesAsync(count.Value);
+
+                    if (messages.Count < 32)
+                        count = messages.Count;
+                }
 
                 Console.WriteLine($"The queue {queueName} has  {count} message(s)!");
 

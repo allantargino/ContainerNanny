@@ -42,7 +42,18 @@ namespace Nanny.Kubernetes
 
         }
 
-        public async Task<V1Job> CreateJobAsync(string jobName, int parallelism, int completions, string containerName, string containerImage, string imagePullSecret, string label, string _namespace = "default")
+        public async Task<V1Job> CreateJobAsync(string jobName, 
+            int parallelism, 
+            int completions, 
+            string containerName, 
+            string containerImage, 
+            string imagePullSecret, 
+            string label, 
+            string _namespace = "default",
+            string cpuRequest="250m",
+            string memRequest="50Mi",
+            string cpuLimit="500m",
+            string memLimit="100Mi")
         {
             if (string.IsNullOrEmpty(jobName)) throw new ArgumentNullException(nameof(jobName));
             if (string.IsNullOrEmpty(containerName)) throw new ArgumentNullException(nameof(containerName));
@@ -60,6 +71,15 @@ namespace Nanny.Kubernetes
                 Name = jobName
             };
 
+            var podLimits = new Dictionary<string, ResourceQuantity>();
+            podLimits.Add("cpu", new ResourceQuantity(cpuLimit));
+            podLimits.Add("memory", new ResourceQuantity(memLimit));
+
+            var podRequest = new Dictionary<string, ResourceQuantity>();
+            podRequest.Add("cpu", new ResourceQuantity(cpuRequest));
+            podRequest.Add("memory", new ResourceQuantity(memRequest));
+
+
             job.Spec = new V1JobSpec()
             {
                 Parallelism = parallelism,
@@ -76,7 +96,12 @@ namespace Nanny.Kubernetes
                             new V1Container(){
                                 Name = containerName,
                                 Image = containerImage,
-                                ImagePullPolicy = "Always"
+                                ImagePullPolicy = "Always",
+                                Resources = new V1ResourceRequirements()
+                                {
+                                    Limits = podLimits,
+                                    Requests = podRequest
+                                }
                             }
                         },
                         RestartPolicy = "Never",
