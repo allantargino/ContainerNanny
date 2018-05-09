@@ -155,7 +155,8 @@ namespace QueueStorage.Consumer
 
             var queue = await CreateQueueAsync(undequeue);
 
-            await queue.AddMessageAsync(message);
+            var dequeueMessage = new CloudQueueMessage(message.AsString);
+            await queue.AddMessageAsync(dequeueMessage);
 
             await _queue.DeleteMessageAsync(message);
         }
