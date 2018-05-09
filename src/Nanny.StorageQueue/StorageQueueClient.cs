@@ -2,6 +2,7 @@
 using Microsoft.WindowsAzure.Storage.Queue;
 using Nanny.Common.Interfaces;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Nanny.StorageQueue
@@ -55,6 +56,11 @@ namespace Nanny.StorageQueue
             {
                 await _queue.FetchAttributesAsync();
                 count = _queue.ApproximateMessageCount;
+
+                List<CloudQueueMessage> messages = (List<CloudQueueMessage>) await _queue.PeekMessagesAsync(count.Value);
+
+                if (messages.Count < 32)
+                    count = messages.Count;
 
                 Console.WriteLine($"The queue {queueName} has  {count} message(s)!");
 
