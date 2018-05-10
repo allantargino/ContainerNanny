@@ -11,7 +11,7 @@ namespace Nanny.Kubernetes.Interfaces
         Task<V1Deployment> UpdateDeploymentAsync(V1Deployment deployment);
 
         //Jobs
-        Task<V1Job> CreateJobAsync(string jobName, int parallelism, int completions, string containerName, string containerImage, string imagePullSecret, string label, string _namespace);
+        Task<V1Job> CreateJobAsync(string jobName, int parallelism, int completions, string containerName, string containerImage, string imagePullSecret, string label, string _namespace, string cpuRequest, string memRequest, string cpuLimit, string memLimit);
 
         //Kluster
         Task<bool> isResourceAvailableAsync();

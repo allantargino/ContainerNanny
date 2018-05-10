@@ -63,7 +63,7 @@ namespace Nanny.Kubernetes
             if (completions < 1) throw new ArgumentOutOfRangeException(nameof(completions));
 
             var labels = new Dictionary<string, string>();
-            labels.Add("queue", label);
+            labels.Add("nanny", label);
 
             var job = new V1Job();
             job.Metadata = new V1ObjectMeta()
@@ -123,8 +123,8 @@ namespace Nanny.Kubernetes
             var count = 0;
             if (!string.IsNullOrWhiteSpace(label))
             {
-                count = (await _k8client.ListNamespacedPodAsync(_namespace, fieldSelector: "status.phase=Pending", labelSelector: $"queue={label}")).Items.Count;
-                count += (await _k8client.ListNamespacedPodAsync(_namespace, fieldSelector: "status.phase=Running", labelSelector: $"queue={label}")).Items.Count;
+                count = (await _k8client.ListNamespacedPodAsync(_namespace, fieldSelector: "status.phase=Pending", labelSelector: $"nanny={label}")).Items.Count;
+                count += (await _k8client.ListNamespacedPodAsync(_namespace, fieldSelector: "status.phase=Running", labelSelector: $"nanny={label}")).Items.Count;
             }
             else
             {

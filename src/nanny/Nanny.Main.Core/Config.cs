@@ -45,6 +45,6 @@ namespace Nanny.Main.Core
                 Name = name;
             }
         }
+
     }
-}
 }
