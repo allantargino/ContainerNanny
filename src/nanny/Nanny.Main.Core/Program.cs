@@ -22,6 +22,10 @@ namespace Nanny.Main.Core
         static string k8Secret;
         static string queueName;
         static int containerLimit;
+        static string jobCpuRequest;
+        static string jobCpuLimit;
+        static string jobMemRequest;
+        static string jobMemLimit;
 
         static async Task Main(string[] args)
         {
@@ -35,6 +39,11 @@ namespace Nanny.Main.Core
             containerImage = _config.Get("JOB_CONTAINER_IMAGE");
             k8Namespace = _config.Get("K8S_NAMESPACE");
             k8Secret = _config.Get("K8S_CR_SECRET");
+
+            jobCpuRequest = _config.Get("JOB_CPU_REQUEST");
+            jobCpuLimit = _config.Get("JOB_CPU_LIMIT");
+            jobMemRequest = _config.Get("JOB_MEM_REQUEST");
+            jobMemLimit = _config.Get("JOB_MEM_LIMIT");
 
             try
             {
@@ -113,7 +122,7 @@ namespace Nanny.Main.Core
 
             var job_name = Guid.NewGuid().ToString();
             Console.WriteLine($"Job {job_name} has been created!");
-            var job = await kube.CreateJobAsync(job_name, jobCount, 1, containerName, containerImage, k8Secret, queueName, k8Namespace);
+            var job = await kube.CreateJobAsync(job_name, jobCount, 1, containerName, containerImage, k8Secret, queueName, k8Namespace, jobCpuRequest, jobMemRequest, jobCpuLimit, jobMemLimit);
         }
 
         static async Task<int> GetCurrentRunningJobs(string _namespace = "default", string label = "")
