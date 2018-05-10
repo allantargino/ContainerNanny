@@ -289,3 +289,9 @@ __pycache__/
 /src/nanny/Nanny.Main.Core/deployment.dev.yaml
 /src/nanny/Nanny.Main.Core/settings.dev.json
 /src/nanny/Nanny.Main.Core/config-syncweek
+/src/nanny/Nanny.Main.Core/deployment/deployment.dev.yaml
+/src/nanny/Nanny.Main.Core/deployment/configmap.dev.yaml
+/src/nanny/Nanny.Main.Core/deployment/configmap-job.dev.yaml
+/src/QueueStorage.Consumer/configmap-job.dev.yaml
+/src/QueueStorage.Consumer/settings.dev.json
+/src/nanny/Nanny.Main.Core/deployment/deployment.dev.old.yaml

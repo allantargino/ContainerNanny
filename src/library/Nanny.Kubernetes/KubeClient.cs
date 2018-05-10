@@ -3,6 +3,7 @@ using k8s.Models;
 using Nanny.Common.Interfaces;
 using Nanny.Kubernetes.Interfaces;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
@@ -49,6 +50,7 @@ namespace Nanny.Kubernetes
             string containerImage, 
             string imagePullSecret, 
             string label, 
+            IDictionary<string, string> environmentVariables,
             string _namespace = "default",
             string cpuRequest="250m",
             string memRequest="50Mi",
@@ -61,6 +63,7 @@ namespace Nanny.Kubernetes
             if (string.IsNullOrEmpty(imagePullSecret)) throw new ArgumentNullException(nameof(imagePullSecret));
             if (parallelism < 1) throw new ArgumentOutOfRangeException(nameof(parallelism));
             if (completions < 1) throw new ArgumentOutOfRangeException(nameof(completions));
+            if (environmentVariables == null || environmentVariables.Count == 0) throw new ApplicationException("No Environment variable provided!");
 
             var labels = new Dictionary<string, string>();
             labels.Add("nanny", label);
@@ -79,6 +82,7 @@ namespace Nanny.Kubernetes
             podRequest.Add("cpu", new ResourceQuantity(cpuRequest));
             podRequest.Add("memory", new ResourceQuantity(memRequest));
 
+            List<V1EnvVar> envVars = environmentVariables.Select(e => new V1EnvVar(e.Key, e.Value)).ToList<V1EnvVar>();
 
             job.Spec = new V1JobSpec()
             {
@@ -101,7 +105,8 @@ namespace Nanny.Kubernetes
                                 {
                                     Limits = podLimits,
                                     Requests = podRequest
-                                }
+                                },
+                                Env = envVars
                             }
                         },
                         RestartPolicy = "Never",
@@ -141,6 +146,19 @@ namespace Nanny.Kubernetes
             return await Task.FromResult(true);
         }
 
+        public async Task<V1ConfigMap> GetConfigMapListAsync(string _namespace, string configMapListName)
+        {
+            var configMapList = await _k8client.ListNamespacedConfigMapAsync(_namespace);
+
+            if (configMapList.Items.Count > 0)
+            {
+                var configMapResult = configMapList.Items.Where(c => c.Metadata.Name.Equals(configMapListName)).First();
+                return configMapResult;
+            }
+
+            return null;
+        }
+
         #region IDisposable Support
 
         private bool _disposed = false;
@@ -162,7 +180,6 @@ namespace Nanny.Kubernetes
                 _disposed = true;
             }
         }
-
         #endregion
     }
 }

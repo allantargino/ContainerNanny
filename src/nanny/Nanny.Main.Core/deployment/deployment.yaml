@@ -1,0 +1,83 @@
+﻿apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: pdftoimagehigh
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: pdftoimagehigh
+        nanny: queuechecker
+    spec:
+      containers:
+      - name: queuechecker
+        image: atldev.azurecr.io/queuechecker
+        env:
+        - name: QUEUE_CONNECTION_STRING
+          valueFrom:
+            configMapKeyRef:
+              name: pdftoimage-config
+              key : QUEUE_CONNECTION_STRING
+        - name: QUEUE_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: pdftoimage-config
+              key : QUEUE_NAME
+        - name: K8S_CONIFG
+          valueFrom:
+            configMapKeyRef:
+              name: pdftoimage-config
+              key : K8S_CONIFG
+        - name: K8S_NAMESPACE
+          valueFrom:
+            configMapKeyRef:
+              name: pdftoimage-config
+              key : K8S_NAMESPACE
+        - name: K8S_CR_SECRET
+          valueFrom:
+            configMapKeyRef:
+              name: pdftoimage-config
+              key : K8S_CR_SECRET
+        - name: JOB_CONTAINER_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: pdftoimage-config
+              key : JOB_CONTAINER_NAME
+        - name: JOB_CONTAINER_IMAGE
+          valueFrom:
+            configMapKeyRef:
+              name: pdftoimage-config
+              key : JOB_CONTAINER_IMAGE
+        - name: JOB_MAX_POD
+          valueFrom:
+            configMapKeyRef:
+              name: pdftoimage-config
+              key : JOB_MAX_POD
+        - name: JOB_CPU_REQUEST
+          valueFrom:
+            configMapKeyRef:
+              name: pdftoimage-config
+              key : JOB_CPU_REQUEST
+        - name: JOB_CPU_LIMIT
+          valueFrom:
+            configMapKeyRef:
+              name: pdftoimage-config
+              key : JOB_CPU_LIMIT
+        - name: JOB_MEM_REQUEST
+          valueFrom:
+            configMapKeyRef:
+              name: pdftoimage-config
+              key : JOB_MEM_REQUEST
+        - name: JOB_MEM_LIMIT
+          valueFrom:
+            configMapKeyRef:
+              name: pdftoimage-config
+              key : JOB_MEM_LIMIT
+        - name: JOB_CONFIGMAP_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: pdftoimage-config
+              key : JOB_CONFIGMAP_NAME
+      imagePullSecrets:
+      - name: atldevazure

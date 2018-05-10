@@ -19,8 +19,10 @@ namespace QueueStorage.Consumer
         static string _tempFolder;
         static string _resolution;
         static string _queueName;
+        static Config _config = null;
+        static string _imageStorageAccount;
+        static string _imageStorageBlobContainer;
 
-        static JsonConfiguration settings;
 
         static CloudStorageAccount _storageAccount;
         static CloudQueueClient _queueClient;
@@ -32,7 +34,7 @@ namespace QueueStorage.Consumer
 
         static void Main(string[] args)
         {
-            Initialize();
+            Initialize(args);
 
             while (true)
             {                 
@@ -177,20 +179,25 @@ namespace QueueStorage.Consumer
             return queue;
         }
 
-        private static void Initialize()
+        private static void Initialize(string[] args)
         {
-            _semaphore = new SemaphoreSlim(1, 1);
-            settings = JsonConfiguration.Build("./settings.json");
 
-            _gs = $@"{ settings["GS_BIN"]}";
-            _tempFolder = $@"{ settings["TEMP_FOLDER"]}";
-            _resolution = (int.Parse( settings["IMAGE_RESOLUTION"]) / 10).ToString();
+
+            _semaphore = new SemaphoreSlim(1, 1);
+            _config = new Config(args);
+
+            _gs = $@"{ _config.Get("GS_BIN")}";
+            _tempFolder = $@"{ _config.Get("TEMP_FOLDER")}";
+            _resolution = (int.Parse(_config.Get("IMAGE_RESOLUTION")) / 10).ToString();
 
             if (!Directory.Exists(_tempFolder))
                 Directory.CreateDirectory(_tempFolder);
 
-            var connectionString =  settings["STORAGE_ACCOUNT"];
-            _queueName =  settings["QUEUE_NAME"];
+            var connectionString = _config.Get("STORAGE_ACCOUNT");
+            _queueName = _config.Get("QUEUE_NAME");
+
+            _imageStorageAccount = _config.Get("IMAGE_STORAGE_ACCOUNT");
+            _imageStorageBlobContainer = _config.Get("IMAGE_CONTAINER_NAME");
 
             if (string.IsNullOrWhiteSpace(connectionString)) throw new ArgumentException("connectionString is empty");
 
@@ -233,7 +240,7 @@ namespace QueueStorage.Consumer
         private static void UploadImages(Stream[] pdfPageImageList, string filename)
         {
             //Upload Pages in Patch
-            var container = GetContainer( settings["IMAGE_STORAGE_ACCOUNT"],  settings["IMAGE_CONTAINER_NAME"]);
+            var container = GetContainer(_imageStorageAccount, _imageStorageBlobContainer);
 
             container.CreateIfNotExistsAsync().GetAwaiter().GetResult();
 
