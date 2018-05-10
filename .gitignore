@@ -287,3 +287,4 @@ __pycache__/
 *.odx.cs
 *.xsd.cs
 /src/nanny/Nanny.Main.Core/deployment.dev.yaml
+/src/nanny/Nanny.Main.Core/settings.dev.json

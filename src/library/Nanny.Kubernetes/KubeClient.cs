@@ -42,7 +42,18 @@ namespace Nanny.Kubernetes
 
         }
 
-        public async Task<V1Job> CreateJobAsync(string jobName, int parallelism, int completions, string containerName, string containerImage, string imagePullSecret, string label, string _namespace = "default")
+        public async Task<V1Job> CreateJobAsync(string jobName, 
+            int parallelism, 
+            int completions, 
+            string containerName, 
+            string containerImage, 
+            string imagePullSecret, 
+            string label, 
+            string _namespace = "default",
+            string cpuRequest="250m",
+            string memRequest="50Mi",
+            string cpuLimit="500m",
+            string memLimit="100Mi")
         {
             if (string.IsNullOrEmpty(jobName)) throw new ArgumentNullException(nameof(jobName));
             if (string.IsNullOrEmpty(containerName)) throw new ArgumentNullException(nameof(containerName));
@@ -52,13 +63,22 @@ namespace Nanny.Kubernetes
             if (completions < 1) throw new ArgumentOutOfRangeException(nameof(completions));
 
             var labels = new Dictionary<string, string>();
-            labels.Add("queue", label);
+            labels.Add("nanny", label);
 
             var job = new V1Job();
             job.Metadata = new V1ObjectMeta()
             {
                 Name = jobName
             };
+
+            var podLimits = new Dictionary<string, ResourceQuantity>();
+            podLimits.Add("cpu", new ResourceQuantity(cpuLimit));
+            podLimits.Add("memory", new ResourceQuantity(memLimit));
+
+            var podRequest = new Dictionary<string, ResourceQuantity>();
+            podRequest.Add("cpu", new ResourceQuantity(cpuRequest));
+            podRequest.Add("memory", new ResourceQuantity(memRequest));
+
 
             job.Spec = new V1JobSpec()
             {
@@ -76,7 +96,12 @@ namespace Nanny.Kubernetes
                             new V1Container(){
                                 Name = containerName,
                                 Image = containerImage,
-                                ImagePullPolicy = "Always"
+                                ImagePullPolicy = "Always",
+                                Resources = new V1ResourceRequirements()
+                                {
+                                    Limits = podLimits,
+                                    Requests = podRequest
+                                }
                             }
                         },
                         RestartPolicy = "Never",
@@ -98,8 +123,8 @@ namespace Nanny.Kubernetes
             var count = 0;
             if (!string.IsNullOrWhiteSpace(label))
             {
-                count = (await _k8client.ListNamespacedPodAsync(_namespace, fieldSelector: "status.phase=Pending", labelSelector: $"queue={label}")).Items.Count;
-                count += (await _k8client.ListNamespacedPodAsync(_namespace, fieldSelector: "status.phase=Running", labelSelector: $"queue={label}")).Items.Count;
+                count = (await _k8client.ListNamespacedPodAsync(_namespace, fieldSelector: "status.phase=Pending", labelSelector: $"nanny={label}")).Items.Count;
+                count += (await _k8client.ListNamespacedPodAsync(_namespace, fieldSelector: "status.phase=Running", labelSelector: $"nanny={label}")).Items.Count;
             }
             else
             {

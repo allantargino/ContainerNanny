@@ -1,5 +1,14 @@
 ﻿{
-  "ConnectionString": "Endpoint=sb://YOURSERVICEBUS.servicebus.windows.net/;SharedAccessKeyName=YOURSASNAME;SharedAccessKey=YOURSASKEY",
-  "QueueName": "YOURQUEUE",
-  "KubernetesConfig": "./config"
+  "JOB_MAX_POD": "10",
+  "JOB_CONTAINER_IMAGE": "",
+  "JOB_CONTAINER_NAME": "",
+  "JOB_CPU_REQUEST": "250m",
+  "JOB_CPU_LIMIT": "500m",
+  "JOB_MEM_REQUEST": "50Mi",
+  "JOB_MEM_LIMIT": "100Mi",
+  "QUEUE_CONNECTION_STRING": "",
+  "QUEUE_NAME": "",
+  "K8S_NAMESPACE": "",
+  "K8S_CR_SECRET": "",
+  "K8S_CONIFG": "./config"
 }

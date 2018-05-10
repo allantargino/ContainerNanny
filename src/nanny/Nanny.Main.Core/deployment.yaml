@@ -13,21 +13,29 @@ spec:
       - name: queuechecker
         image: <Nanny Container Image>
         env:
-        - name: CONNECTION_STRING
-          value: <Your Connection String>
-        - name: KUBE_CONIFG
-          value: <Your Kube Config>
-        - name: QUEUE_NAME
-          value: pdftoimage
-        - name: CONTAINER_NAME
-          value: pdftoimage
-        - name: CONTAINER_IMAGE
-          value: <Container Image that will consume the queue>
+        - name: QUEUE_CONNECTION_STRING
+          value: <Your connection string>
+		- name: QUEUE_NAME
+          value: <queue name>
+        - name: K8S_CONIFG
+          value: ./config
         - name: K8S_NAMESPACE
-          value: <K8 Namespace>
-        - name: K8S_SECRET
-          value: <Private Container Repository Secret>
-		- name: MAX_CONTAINERS
-          value: 10
+          value: <K8s namespace>
+        - name: K8S_CR_SECRET
+          value: <k8 secret for registry>
+		- name: JOB_CONTAINER_NAME
+          value: <Job pod name>
+        - name: JOB_CONTAINER_IMAGE
+          value: <Image used at the job>
+        - name: JOB_MAX_POD
+          value: "10"
+        - name: JOB_CPU_REQUEST
+          value: "250m"
+        - name: JOB_CPU_LIMIT
+          value: "500m"
+        - name: JOB_MEM_REQUEST
+          value: "50Mi"
+        - name: JOB_MEM_LIMIT
+          value: "100Mi"
       imagePullSecrets:
-      - name: atldevazure
+      - name: <k8 secret for registry>
