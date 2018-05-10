@@ -26,6 +26,7 @@ namespace Nanny.Main.Core
         static string jobCpuLimit;
         static string jobMemRequest;
         static string jobMemLimit;
+        static string jobConfigMapName;
 
         static async Task Main(string[] args)
         {
@@ -44,6 +45,8 @@ namespace Nanny.Main.Core
             jobCpuLimit = _config.Get("JOB_CPU_LIMIT");
             jobMemRequest = _config.Get("JOB_MEM_REQUEST");
             jobMemLimit = _config.Get("JOB_MEM_LIMIT");
+
+            jobConfigMapName = _config.Get("JOB_CONFIGMAP_NAME");
 
             try
             {
@@ -120,9 +123,16 @@ namespace Nanny.Main.Core
         {
             if (jobCount <= 0) return;
 
+            var configMap = await kube.GetConfigMapListAsync(k8Namespace, jobConfigMapName);
+
+            if (configMap == null)
+            {
+                throw new ApplicationException($"Configuration Map '{jobConfigMapName}' for the nanny queue {queueName}");
+            }
+            
             var job_name = Guid.NewGuid().ToString();
             Console.WriteLine($"Job {job_name} has been created!");
-            var job = await kube.CreateJobAsync(job_name, jobCount, 1, containerName, containerImage, k8Secret, queueName, k8Namespace, jobCpuRequest, jobMemRequest, jobCpuLimit, jobMemLimit);
+            var job = await kube.CreateJobAsync(job_name, jobCount, 1, containerName, containerImage, k8Secret, queueName, configMap.Data, k8Namespace, jobCpuRequest, jobMemRequest, jobCpuLimit, jobMemLimit);
         }
 
         static async Task<int> GetCurrentRunningJobs(string _namespace = "default", string label = "")

@@ -1,0 +1,13 @@
+﻿apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pdftoimage-job-config
+data:
+  GS_BIN : gs
+  GS_BIN_WIN : C:\\Program Files\\gs\\gs9.23_\\bin\\gswin64c.exe
+  TEMP_FOLDER : pdfimages
+  IMAGE_RESOLUTION : "4096"
+  STORAGE_ACCOUNT : <QUEUE Storage Account>
+  QUEUE_NAME : <NAME>
+  IMAGE_STORAGE_ACCOUNT : <Image storage account connection string>
+  IMAGE_CONTAINER_NAME : <Image blob container name>
