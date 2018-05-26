@@ -36,7 +36,6 @@ namespace Nanny.Kubernetes
             if (string.IsNullOrEmpty(deployment)) throw new ArgumentException(nameof(deployment));
 
             return await _k8client.ReadNamespacedDeploymentAsync(deployment, _namespace, true);
-
         }
 
         public async Task<V1Deployment> UpdateDeploymentAsync(V1Deployment deployment)
@@ -46,7 +45,6 @@ namespace Nanny.Kubernetes
             var patch = new V1Patch(deployment);
 
             return await _k8client.PatchNamespacedDeploymentAsync(patch, deployment.Metadata.Name, deployment.Metadata.NamespaceProperty);
-
         }
 
         public async Task<V1Job> CreateJobAsync(string jobName, 
