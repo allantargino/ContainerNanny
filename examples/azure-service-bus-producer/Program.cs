@@ -14,11 +14,9 @@ namespace Queue.Producer
 
         static JsonConfiguration settings;
 
-
         static void Main(string[] args)
         {
             settings = JsonConfiguration.Build("./settings.json");
-
             MainAsync().GetAwaiter().GetResult();
         }
 
@@ -27,7 +25,6 @@ namespace Queue.Producer
             const int numberOfSessions = 1;
             const int numberOfMessagesPerSession = 300;
 
-
             while (true)
             {
                 messageSender = new MessageSender(settings["ServiceBusConnectionString"], settings["ServiceBusQueueName"]);
@@ -35,16 +32,6 @@ namespace Queue.Producer
                 await messageSender.CloseAsync();
                 await Task.Delay(10 * 1000);
             }
-
-            //// Send messages with sessionId set
-
-            //Console.WriteLine("=========================================================");
-            //Console.WriteLine("Completed Receiving all messages... Press any key to exit");
-            //Console.WriteLine("=========================================================");
-
-            //Console.ReadKey();
-
-           
         }
 
         static async Task SendSessionMessagesAsync(int numberOfSessions, int messagesPerSession)
@@ -61,7 +48,6 @@ namespace Queue.Producer
                 string sessionId = SessionPrefix + i;
                 for (int j = 0; j < messagesPerSession; j++)
                 {
-
                     var text = random.Next().ToString();
 
                     // Create a new message to send to the queue
@@ -73,7 +59,6 @@ namespace Queue.Producer
                     // Write the sessionId, body of the message to the console
                     Console.WriteLine($"Sending SessionId: {message.SessionId}, message: {text}");
                 }
-
                 // Send a batch of messages corresponding to this sessionId to the queue
                 await messageSender.SendAsync(messagesToSend);
             }
@@ -82,6 +67,5 @@ namespace Queue.Producer
             Console.WriteLine($"Sent {messagesPerSession} messages each for {numberOfSessions} sessions.");
             Console.WriteLine("=====================================");
         }
-
     }
 }
