@@ -14,4 +14,3 @@ cd tests
 dotnet test ./tests/Nanny.Common.Tests
 dotnet test ./tests/Nanny.Kubernetes.Tests
 dotnet test ./tests/Nanny.Queue.Tests
-
