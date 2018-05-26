@@ -25,7 +25,7 @@ namespace Nanny.Main
         }
 
         [DebuggerHidden]
-        public string Get(string configName)
+        public string GetRequired(string configName)
         {
             var value = _config[configName];
 
@@ -33,6 +33,11 @@ namespace Nanny.Main
                 throw new NotConfigured(configName);
 
             return value;
+        }
+
+        public string GetNotRequired(string configName)
+        {
+            return _config[configName];
         }
 
 
