@@ -6,7 +6,7 @@ using System;
 using System.Threading.Tasks;
 
 namespace Nanny.Main
-{
+
     public class Program
     {
         static Config _config = null;
