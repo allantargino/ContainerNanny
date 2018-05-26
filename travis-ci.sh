@@ -11,5 +11,7 @@ dotnet build ./src
 
 # Execute Unit tests
 cd tests
-dotnet restore
-dotnet test
+dotnet test ./tests/Nanny.Common.Tests
+dotnet test ./tests/Nanny.Kubernetes.Tests
+dotnet test ./tests/Nanny.Queue.Tests
+
