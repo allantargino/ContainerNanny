@@ -6,7 +6,7 @@ Monitoring solution for container jobs scale
 
 | Version                             | Status                         | Code Review                    | License
 |-----------------------------------	| ------------------------------ | ------------------------------ | ------------------------------
-| 0.1.0                               | [![Build Status](https://travis-ci.org/CSELATAM/ContainerNanny.svg?branch=master)](https://travis-ci.org/CSELATAM/ContainerNanny) | [![CodeFactor](https://www.codefactor.io/Content/badges/B.svg)](https://www.codefactor.io/repository/github/cselatam/containernanny) | [![Open Source Love](https://badges.frapsoft.com/os/mit/mit.svg?v=102)](https://github.com/CSELATAM/ContainerNanny/blob/master/LICENSE)
+| 0.1.0                               | [![Build Status](https://travis-ci.org/CSELATAM/ContainerNanny.svg?branch=master)](https://travis-ci.org/CSELATAM/ContainerNanny) | [![CodeFactor](https://www.codefactor.io/repository/github/cselatam/containernanny/badge)](https://www.codefactor.io/repository/github/cselatam/containernanny) | [![Open Source Love](https://badges.frapsoft.com/os/mit/mit.svg?v=102)](https://github.com/CSELATAM/ContainerNanny/blob/master/LICENSE)
 
 ## Architecture
 
