@@ -2,11 +2,11 @@
 Monitoring solution for container jobs scale
 
 
-### Build Status
+### Status
 
-| Version                              	| Status                         |
-|-----------------------------------	| ------------------------------ |
-| 0.1.0                                	| [![Build Status](https://travis-ci.org/CSELATAM/ContainerNanny.svg?branch=master)](https://travis-ci.org/CSELATAM/ContainerNanny) |
+| Version                             | Status                         | License
+|-----------------------------------	| ------------------------------ | ------------------------------
+| 0.1.0                               | [![Build Status](https://travis-ci.org/CSELATAM/ContainerNanny.svg?branch=master)](https://travis-ci.org/CSELATAM/ContainerNanny) | [![Open Source Love](https://badges.frapsoft.com/os/mit/mit.svg?v=102)](https://github.com/CSELATAM/ContainerNanny/blob/master/LICENSE)
 
 ## Architecture
 
