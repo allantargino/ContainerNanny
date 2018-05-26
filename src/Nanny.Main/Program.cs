@@ -29,7 +29,7 @@ namespace Nanny.Main
 
         static async Task Main(string[] args)
         {
-            _config = new Config(args,"dev");
+            _config = new Config(args, "dev");
 
             var connectionString = _config.GetRequired("QUEUE_CONNECTION_STRING");
             var kubeConfig = _config.GetNotRequired("K8S_CONIFG");
@@ -56,7 +56,6 @@ namespace Nanny.Main
                 containerLimit = 5;
             }
 
-
             if (String.IsNullOrWhiteSpace(connectionString)) throw new ApplicationException("Connection String was not provided!!!");
 
             if (connectionString.IndexOf("AccountName") != -1) //Storage Account
@@ -82,13 +81,12 @@ namespace Nanny.Main
             {
                 var messageCount = await GetMessageCount(queueName);
                 Console.WriteLine($"There are {messageCount} messages in the queue {queueName}");
-                
+
                 var currentRunningJobs = await GetCurrentRunningJobs(k8Namespace, queueName);
                 Console.WriteLine($"I have found {messageCount} jobs in Kubernetes");
 
                 if (await isResourceAvailableAsync() && currentRunningJobs < containerLimit)
                 {
-
                     var result = rule.GetJobScalingResult(messageCount, currentRunningJobs);
 
                     if (result.JobCount > 0)
@@ -104,7 +102,6 @@ namespace Nanny.Main
                     Console.WriteLine("No more resources available in the cluster!");
                     await Task.Delay(5 * 60 * 1000);
                 }
-
             } while (true);
         }
 
@@ -130,7 +127,7 @@ namespace Nanny.Main
             {
                 throw new ApplicationException($"Configuration Map '{jobConfigMapName}' for the nanny queue {queueName}");
             }
-            
+
             var job_name = Guid.NewGuid().ToString();
             Console.WriteLine($"Job {job_name} has been created!");
             var job = await kube.CreateJobAsync(job_name, jobCount, 1, containerName, containerImage, k8Secret, queueName, configMap.Data, k8Namespace, jobCpuRequest, jobMemRequest, jobCpuLimit, jobMemLimit);
@@ -138,7 +135,7 @@ namespace Nanny.Main
 
         static async Task<int> GetCurrentRunningJobs(string _namespace = "default", string label = "")
         {
-            return await kube.GetActivePodCountFromNamespaceAsync( _namespace, label);
+            return await kube.GetActivePodCountFromNamespaceAsync(_namespace, label);
         }
 
         #endregion
