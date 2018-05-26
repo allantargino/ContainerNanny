@@ -1,12 +1,12 @@
 ﻿using Nanny.Common.Interfaces;
 using Nanny.Kubernetes;
-using Nanny.Main.Core.Rules;
+using Nanny.Main.Rules;
 using Nanny.ServiceBus;
 using Nanny.StorageQueue;
 using System;
 using System.Threading.Tasks;
 
-namespace Nanny.Main.Core
+namespace Nanny.Main
 {
     public class Program
     {

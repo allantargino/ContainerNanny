@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\library\Nanny.Common\Nanny.Common.csproj" />
+    <ProjectReference Include="..\Nanny.Common\Nanny.Common.csproj" />
   </ItemGroup>
 
 </Project>

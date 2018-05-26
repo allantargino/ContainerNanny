@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Nanny.Main.Core.Rules
+namespace Nanny.Main.Rules
 {
     class IncrementRule : IScalableRule
     {

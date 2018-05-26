@@ -2,7 +2,7 @@
 using System;
 using System.Diagnostics;
 
-namespace Nanny.Main.Core
+namespace Nanny.Main
 {
     /// <summary>
     /// This class put together all sources of configuration: Files, Environment Variables and Commnand Args
