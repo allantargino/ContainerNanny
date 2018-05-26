@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Nanny.Queue.Models;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Net;
@@ -6,11 +7,11 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Web;
 
-namespace Nanny.ServiceBus
+namespace Nanny.Queue.Utils
 {
-    public static class TokenManager
+    public static class ServiceBusTokenManager
     {
-        public static Token GetToken(ConnectionStringValues values, double validFor = 3600)
+        public static Token GetToken(ServiceBusConnectionValues values, double validFor = 3600)
         {
             var baseAddress = values.ServiceBusEndpoint;
             var SASKeyValue = values.SasKeyValue;

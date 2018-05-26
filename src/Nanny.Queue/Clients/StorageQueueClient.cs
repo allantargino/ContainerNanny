@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Nanny.StorageQueue
+namespace Nanny.Queue.Clients
 {
     public class StorageQueueClient : IQueueClient
     {

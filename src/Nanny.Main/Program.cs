@@ -1,8 +1,7 @@
 ﻿using Nanny.Common.Interfaces;
 using Nanny.Kubernetes;
 using Nanny.Main.Rules;
-using Nanny.ServiceBus;
-using Nanny.StorageQueue;
+using Nanny.Queue.Clients;
 using System;
 using System.Threading.Tasks;
 

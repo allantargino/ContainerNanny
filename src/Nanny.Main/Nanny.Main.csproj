@@ -15,8 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Nanny.Kubernetes\Nanny.Kubernetes.csproj" />
-    <ProjectReference Include="..\Nanny.ServiceBus\Nanny.ServiceBus.csproj" />
-    <ProjectReference Include="..\Nanny.StorageQueue\Nanny.StorageQueue.csproj" />
+    <ProjectReference Include="..\Nanny.Queue\Nanny.Queue.csproj" />
   </ItemGroup>
 
   <ItemGroup>

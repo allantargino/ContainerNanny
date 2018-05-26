@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Nanny.ServiceBus
+namespace Nanny.Queue.Models
 {
     public class Token
     {

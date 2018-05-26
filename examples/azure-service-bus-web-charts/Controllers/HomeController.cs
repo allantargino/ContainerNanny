@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Nanny.Kubernetes;
-using Nanny.ServiceBus;
+using Nanny.Queue.Clients;
 using Queue.Web.Models;
 
 namespace Queue.Web.Controllers

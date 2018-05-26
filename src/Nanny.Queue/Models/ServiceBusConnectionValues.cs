@@ -1,14 +1,14 @@
 ﻿using System;
 
-namespace Nanny.ServiceBus
+namespace Nanny.Queue.Models
 {
-    public class ConnectionStringValues
+    public class ServiceBusConnectionValues
     {
         public string ServiceBusEndpoint { get; }
         public string SasKeyName { get; }
         public string SasKeyValue { get; }
 
-        private ConnectionStringValues(string endpoint, string sasKeyName, string sasKeyValue)
+        private ServiceBusConnectionValues(string endpoint, string sasKeyName, string sasKeyValue)
         {
             if (string.IsNullOrEmpty(endpoint)) throw new ArgumentNullException(nameof(endpoint));
             if (string.IsNullOrEmpty(sasKeyName)) throw new ArgumentNullException(nameof(sasKeyName));
@@ -19,7 +19,7 @@ namespace Nanny.ServiceBus
             SasKeyValue = sasKeyValue;
         }
 
-        public static ConnectionStringValues CreateFromConnectionString(string connectionString)
+        public static ServiceBusConnectionValues CreateFromConnectionString(string connectionString)
         {
             var endpoint = string.Empty;
             var sasKeyName = string.Empty;
@@ -36,7 +36,7 @@ namespace Nanny.ServiceBus
                     sasKeyValue = part.Substring(16);
             }
 
-            return new ConnectionStringValues(endpoint, sasKeyName, sasKeyValue);
+            return new ServiceBusConnectionValues(endpoint, sasKeyName, sasKeyValue);
         }
     }
 }

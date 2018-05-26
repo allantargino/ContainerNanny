@@ -4,15 +4,17 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Nanny.Common.Interfaces;
 using Nanny.Common.Utils;
+using Nanny.Queue.Models;
+using Nanny.Queue.Utils;
 
-namespace Nanny.ServiceBus
+namespace Nanny.Queue.Clients
 {
     public class ServiceBusQueueClient : IQueueClient
     {
-        private ConnectionStringValues ConnectionValues { get; }
+        private ServiceBusConnectionValues ConnectionValues { get; }
         private Token Token { get; set; }
 
-        public ServiceBusQueueClient(ConnectionStringValues connectionValues)
+        public ServiceBusQueueClient(ServiceBusConnectionValues connectionValues)
         {
             ConnectionValues = connectionValues;
             Token = GetNewToken();
@@ -20,11 +22,11 @@ namespace Nanny.ServiceBus
 
         public ServiceBusQueueClient(string connectionString)
             : this(
-                    ConnectionStringValues.CreateFromConnectionString(connectionString)
+                    ServiceBusConnectionValues.CreateFromConnectionString(connectionString)
                  )
         { }
 
-        private Token GetNewToken() => TokenManager.GetToken(ConnectionValues);
+        private Token GetNewToken() => ServiceBusTokenManager.GetToken(ConnectionValues);
 
         public async Task<long> GetMessageCountAsync(string queueName)
         {
