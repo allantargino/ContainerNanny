@@ -3,8 +3,10 @@
 # Exit on any error
 set -e
 
-# Ensure no compile errors in all projects
-find . -name *.csproj -exec dotnet build {} \;
+# Try to compile all examples
+find ./examples -name *.csproj -exec dotnet build {} \;
+
+dotnet build ./src
 
 # Execute Unit tests
 # cd tests
