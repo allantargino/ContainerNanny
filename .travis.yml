@@ -1,0 +1,16 @@
+sudo: required
+dist: trusty
+
+os:
+  - osx
+  - linux
+
+language: csharp
+mono: none
+
+# We need the .NET Core 2.1 (preview 1) SDK to build. Travis doesn't know how to install this yet.
+#before_install:
+#  - ./install-$TRAVIS_OS_NAME.sh
+
+script:
+  - ./ci.sh
