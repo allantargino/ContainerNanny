@@ -14,13 +14,11 @@ namespace QueueStorage.Consumer
 
         public PdfImageConverter(string gstPath, string tempFolder, string ratio)
         {
-
             if (!Directory.Exists(tempFolder)) throw new Exception($"Temp Folder {tempFolder}");
 
             _gsPath = gstPath;
             _tempFolder = tempFolder;
             _ratio = ratio;
-
         }
 
         public void GenerateImage(Stream pdfInput, ref Stream[] imageListOutput)
@@ -84,12 +82,10 @@ namespace QueueStorage.Consumer
             }
 
             return new FileInfo(pdfFile);
-
         }
 
         private async Task<string[]> ConvertAsync(string input, string ratio = "102.4")
         {
-
             var filename = new FileInfo(input).Name.Replace(".pdf", "");
             var outdir = new FileInfo(input).FullName.Replace(".pdf", "");
             Directory.CreateDirectory(outdir);
