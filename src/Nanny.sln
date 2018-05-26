@@ -7,11 +7,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nanny.Common", "Nanny.Commo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nanny.Kubernetes", "Nanny.Kubernetes\Nanny.Kubernetes.csproj", "{61B73DD8-12F6-4820-92A3-B927374476BE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nanny.Main", "Nanny.Main.Core\Nanny.Main.csproj", "{27EAB468-35FD-489E-8EDD-C6F4DA5DC2E4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nanny.Main", "Nanny.Main\Nanny.Main.csproj", "{27EAB468-35FD-489E-8EDD-C6F4DA5DC2E4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nanny.ServiceBus", "Nanny.ServiceBus\Nanny.ServiceBus.csproj", "{7380C7F0-053C-41D6-A8EB-92982B7DDFDA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nanny.StorageQueue", "Nanny.StorageQueue\Nanny.StorageQueue.csproj", "{CE5E9EE7-6EEE-44DC-81B8-7E9E2CB30110}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nanny.Queue", "Nanny.Queue\Nanny.Queue.csproj", "{008F2372-7E70-431B-8209-3B128780AB4B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{CE5E9EE7-6EEE-44DC-81B8-7E9E2CB30110}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CE5E9EE7-6EEE-44DC-81B8-7E9E2CB30110}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CE5E9EE7-6EEE-44DC-81B8-7E9E2CB30110}.Release|Any CPU.Build.0 = Release|Any CPU
+		{008F2372-7E70-431B-8209-3B128780AB4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{008F2372-7E70-431B-8209-3B128780AB4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{008F2372-7E70-431B-8209-3B128780AB4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{008F2372-7E70-431B-8209-3B128780AB4B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
