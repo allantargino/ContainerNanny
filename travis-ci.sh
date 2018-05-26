@@ -11,5 +11,5 @@ dotnet build ./src
 
 # Execute Unit tests
 cd tests
-dotnet restore
+dotnet build
 dotnet test
