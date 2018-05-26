@@ -17,6 +17,12 @@ namespace Nanny.Kubernetes
         private KubernetesClientConfiguration _k8SClientConfig;
         private IKubernetes _k8client;
 
+        public KubeClient()
+        {
+            _k8SClientConfig = KubernetesClientConfiguration.InClusterConfig();
+            _k8client = new k8s.Kubernetes(_k8SClientConfig);
+        }
+
         public KubeClient(FileInfo kubeconfig)
         {
             _k8SClientConfig = KubernetesClientConfiguration.BuildConfigFromConfigFile(kubeconfig);

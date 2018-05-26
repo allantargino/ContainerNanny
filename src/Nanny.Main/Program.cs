@@ -31,25 +31,25 @@ namespace Nanny.Main
         {
             _config = new Config(args,"dev");
 
-            var connectionString = _config.Get("QUEUE_CONNECTION_STRING");
-            var kubeConfig = _config.Get("K8S_CONIFG");
-            queueName = _config.Get("QUEUE_NAME");
+            var connectionString = _config.GetRequired("QUEUE_CONNECTION_STRING");
+            var kubeConfig = _config.GetNotRequired("K8S_CONIFG");
+            queueName = _config.GetRequired("QUEUE_NAME");
 
-            containerName = _config.Get("JOB_CONTAINER_NAME");
-            containerImage = _config.Get("JOB_CONTAINER_IMAGE");
-            k8Namespace = _config.Get("K8S_NAMESPACE");
-            k8Secret = _config.Get("K8S_CR_SECRET");
+            containerName = _config.GetRequired("JOB_CONTAINER_NAME");
+            containerImage = _config.GetRequired("JOB_CONTAINER_IMAGE");
+            k8Namespace = _config.GetRequired("K8S_NAMESPACE");
+            k8Secret = _config.GetRequired("K8S_CR_SECRET");
 
-            jobCpuRequest = _config.Get("JOB_CPU_REQUEST");
-            jobCpuLimit = _config.Get("JOB_CPU_LIMIT");
-            jobMemRequest = _config.Get("JOB_MEM_REQUEST");
-            jobMemLimit = _config.Get("JOB_MEM_LIMIT");
+            jobCpuRequest = _config.GetRequired("JOB_CPU_REQUEST");
+            jobCpuLimit = _config.GetRequired("JOB_CPU_LIMIT");
+            jobMemRequest = _config.GetRequired("JOB_MEM_REQUEST");
+            jobMemLimit = _config.GetRequired("JOB_MEM_LIMIT");
 
-            jobConfigMapName = _config.Get("JOB_CONFIGMAP_NAME");
+            jobConfigMapName = _config.GetRequired("JOB_CONFIGMAP_NAME");
 
             try
             {
-                containerLimit = int.Parse(_config.Get("JOB_MAX_POD"));
+                containerLimit = int.Parse(_config.GetRequired("JOB_MAX_POD"));
             }
             catch
             {
@@ -58,14 +58,16 @@ namespace Nanny.Main
 
 
             if (String.IsNullOrWhiteSpace(connectionString)) throw new ApplicationException("Connection String was not provided!!!");
-            if (String.IsNullOrWhiteSpace(kubeConfig)) throw new ApplicationException("KubeConfig was not provided!!!");
 
             if (connectionString.IndexOf("AccountName") != -1) //Storage Account
                 queueClient = new StorageQueueClient(connectionString);
             else
                 queueClient = new ServiceBusQueueClient(connectionString); //Service Bus
 
-            kube = new KubeClient(kubeConfig);
+            if (String.IsNullOrWhiteSpace(kubeConfig))
+                kube = new KubeClient(); //In-Cluster Config
+            else
+                kube = new KubeClient(kubeConfig);
 
             rule = new IncrementRule(new TimeSpan(0, 1, 0)); // Scaling rule
 
