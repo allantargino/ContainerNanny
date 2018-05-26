@@ -11,7 +11,7 @@ namespace Nanny.Queue.Utils
 {
     public static class ServiceBusTokenManager
     {
-        public static Token GetToken(ServiceBusConnectionValues values, double validFor = 3600)
+        public static ServiceBusToken GetToken(ServiceBusConnectionValues values, double validFor = 3600)
         {
             var baseAddress = values.ServiceBusEndpoint;
             var SASKeyValue = values.SasKeyValue;
@@ -20,7 +20,7 @@ namespace Nanny.Queue.Utils
 
             var value = CreateToken(baseAddress, SASKeyName, SASKeyValue, validFor);
 
-            return new Token(value, expiresOn);
+            return new ServiceBusToken(value, expiresOn);
         }
         
         private static string CreateToken(string resourceUri, string keyName, string key, double validFor)

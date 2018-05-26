@@ -12,7 +12,7 @@ namespace Nanny.Queue.Clients
     public class ServiceBusQueueClient : IQueueClient
     {
         private ServiceBusConnectionValues ConnectionValues { get; }
-        private Token Token { get; set; }
+        private ServiceBusToken Token { get; set; }
 
         public ServiceBusQueueClient(ServiceBusConnectionValues connectionValues)
         {
@@ -26,7 +26,7 @@ namespace Nanny.Queue.Clients
                  )
         { }
 
-        private Token GetNewToken() => ServiceBusTokenManager.GetToken(ConnectionValues);
+        private ServiceBusToken GetNewToken() => ServiceBusTokenManager.GetToken(ConnectionValues);
 
         public async Task<long> GetMessageCountAsync(string queueName)
         {
@@ -36,7 +36,7 @@ namespace Nanny.Queue.Clients
             return await GetQueueMessages(ConnectionValues.ServiceBusEndpoint, queueName, Token);
         }
 
-        private async Task<long> GetQueueMessages(string serviceBusUrl, string queueName, Token token)
+        private async Task<long> GetQueueMessages(string serviceBusUrl, string queueName, ServiceBusToken token)
         {
             var apiVersion = "2017-04";
             var queueEndpoint = $"{serviceBusUrl}{queueName}/?api-version={apiVersion}";

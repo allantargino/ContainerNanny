@@ -4,12 +4,12 @@ using System.Text;
 
 namespace Nanny.Queue.Models
 {
-    public class Token
+    public class ServiceBusToken
     {
         public string Value { get; }
         public DateTime ExpiresOn { get; }
 
-        public Token(string value, DateTime expiresOn)
+        public ServiceBusToken(string value, DateTime expiresOn)
         {
             Value = value;
             ExpiresOn = expiresOn;

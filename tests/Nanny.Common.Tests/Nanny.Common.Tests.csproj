@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Nanny.Common\Nanny.Common.csproj" />
+    <ProjectReference Include="..\..\src\Nanny.Common\Nanny.Common.csproj" />
   </ItemGroup>
 
   <ItemGroup>

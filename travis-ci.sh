@@ -6,9 +6,10 @@ set -e
 # Try to compile all examples
 find ./examples -name *.csproj -exec dotnet build {} \;
 
+# Build main project
 dotnet build ./src
 
-# Execute Unit tests
-# cd tests
-# dotnet restore
-# dotnet test
+Execute Unit tests
+cd tests
+dotnet restore
+dotnet test
