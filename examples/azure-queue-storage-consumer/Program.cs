@@ -22,7 +22,6 @@ namespace QueueStorage.Consumer
         static string _imageStorageAccount;
         static string _imageStorageBlobContainer;
 
-
         static CloudStorageAccount _storageAccount;
         static CloudQueueClient _queueClient;
         static CloudQueue _queue;
@@ -37,7 +36,6 @@ namespace QueueStorage.Consumer
 
             while (true)
             {
-
                 ProcessJob();
 
                 _semaphore.Wait();
@@ -107,7 +105,6 @@ namespace QueueStorage.Consumer
 
                     if (pdfPageImageList == null)
                         Console.WriteLine($"No Pages was generated!");
-
                     else
                     {
                         Console.WriteLine($"Uploading {pdfPageImageList.Length} Images to final Storage Account");
@@ -122,7 +119,6 @@ namespace QueueStorage.Consumer
                         {
                             Console.WriteLine($"Error Uploading Images: {ex.Message}");
                         }
-
                     }
 
                     try
@@ -245,7 +241,6 @@ namespace QueueStorage.Consumer
             {
                 PublicAccess = BlobContainerPublicAccessType.Container
             }).GetAwaiter().GetResult();
-
 
             var tasks = new List<Task>();
             for (int page = 0; page < pdfPageImageList.Length; page++)
