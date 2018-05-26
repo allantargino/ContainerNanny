@@ -1,6 +1,13 @@
 # Container Nanny
 Monitoring solution for container jobs scale
 
+
+### Build Status
+
+| Version                              	| Status                         |
+|-----------------------------------	| ------------------------------ |
+| 0.1.0                                	| [![Build Status](https://travis-ci.org/CSELATAM/ContainerNanny.svg?branch=master)](https://travis-ci.org/CSELATAM/ContainerNanny) |
+
 ## Architecture
 
 ### Basic Architecture
