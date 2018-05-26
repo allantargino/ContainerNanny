@@ -29,14 +29,14 @@ namespace QueueStorage.Consumer
         static CloudQueueMessage _message;
 
         static SemaphoreSlim _semaphore;
-        static DateTime _lastExecution;        
+        static DateTime _lastExecution;
 
         static void Main(string[] args)
         {
             Initialize(args);
 
             while (true)
-            {                 
+            {
 
                 ProcessJob();
 
@@ -49,7 +49,6 @@ namespace QueueStorage.Consumer
                     _semaphore.Release();
                 }
             }
-
         }
 
         private async static void ProcessJob()
@@ -173,15 +172,15 @@ namespace QueueStorage.Consumer
             {
                 await queue.CreateIfNotExistsAsync();
             }
-            catch (Exception ex) { throw new Exception($"Error creating the queue {name} : {ex.Message}"); }
+            catch (Exception ex) {
+                throw new Exception($"Error creating the queue {name} : {ex.Message}");
+            }
 
             return queue;
         }
 
         private static void Initialize(string[] args)
         {
-
-
             _semaphore = new SemaphoreSlim(1, 1);
             _config = new Config(args);
 
@@ -233,7 +232,6 @@ namespace QueueStorage.Consumer
         {
             var options = new QueueRequestOptions();
             return _queue.GetMessageAsync(TimeSpan.FromMinutes(10), options, null).GetAwaiter().GetResult();
-
         }
 
         private static void UploadImages(Stream[] pdfPageImageList, string filename)
@@ -266,14 +264,6 @@ namespace QueueStorage.Consumer
                     Console.WriteLine($"Error uploading image {ex.Message} ");
                 }
             }
-            //try
-            //{
-            //    Task.WaitAll(tasks.ToArray());
-            //}catch(Exception ex)
-            //{
-            //    Console.WriteLine($"Error uploading image {ex.Message} ");
-            //}
-
         }
 
         private static CloudBlobContainer GetContainer(string connectionString, string containerName)
