@@ -7,7 +7,7 @@ set -e
 find ./examples -name *.csproj -exec dotnet build {} \;
 
 # Build main project
-dotnet build ./src
+dotnet build
 
 # Execute Unit tests
 dotnet test ./tests/Nanny.Common.Tests
