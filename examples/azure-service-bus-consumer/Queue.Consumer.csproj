@@ -7,10 +7,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Azure.ServiceBus" Version="2.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\library\Nanny.Common\Nanny.Common.csproj" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
   </ItemGroup>
 
   <ItemGroup>

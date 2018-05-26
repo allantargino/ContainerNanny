@@ -13,8 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\library\Nanny.Kubernetes\Nanny.Kubernetes.csproj" />
-    <ProjectReference Include="..\..\library\Nanny.ServiceBus\Nanny.ServiceBus.csproj" />
+    <ProjectReference Include="..\..\src\Nanny.Kubernetes\Nanny.Kubernetes.csproj" />
+    <ProjectReference Include="..\..\src\Nanny.ServiceBus\Nanny.ServiceBus.csproj" />
   </ItemGroup>
 
   <ItemGroup>

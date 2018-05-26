@@ -14,7 +14,6 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="2.0.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="2.0.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="2.0.1" />
-    <ProjectReference Include="..\library\Nanny.Common\Nanny.Common.csproj" />
   </ItemGroup>
 
   <ItemGroup>

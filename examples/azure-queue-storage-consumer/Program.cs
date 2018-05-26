@@ -1,7 +1,6 @@
 ﻿using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using Microsoft.WindowsAzure.Storage.Queue;
-using Nanny.Common.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;

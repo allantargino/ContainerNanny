@@ -1,5 +1,4 @@
 ﻿using Microsoft.Azure.ServiceBus;
-using Nanny.Common.Utils;
 using System;
 using System.Text;
 using System.Threading;

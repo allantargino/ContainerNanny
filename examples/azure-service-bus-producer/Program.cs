@@ -1,6 +1,5 @@
 ﻿using Microsoft.Azure.ServiceBus;
 using Microsoft.Azure.ServiceBus.Core;
-using Nanny.Common.Utils;
 using System;
 using System.Collections.Generic;
 using System.Text;
