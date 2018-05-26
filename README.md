@@ -1,4 +1,4 @@
-# Kuber.NET
+# Container Nanny
 Monitoring solution for container jobs scale
 
 ## Architecture

@@ -4,9 +4,8 @@ WORKDIR /app
 FROM microsoft/dotnet:2.0-sdk AS build
 WORKDIR /src
 COPY Nanny.Main/Nanny.Main.csproj Nanny.Main/
-COPY Nanny.ServiceBus/Nanny.ServiceBus.csproj Nanny.ServiceBus/
+COPY Nanny.Queue/Nanny.Queue.csproj Nanny.Queue/
 COPY Nanny.Common/Nanny.Common.csproj Nanny.Common/
-COPY Nanny.StorageQueue/Nanny.StorageQueue.csproj Nanny.StorageQueue/
 COPY Nanny.Kubernetes/Nanny.Kubernetes.csproj Nanny.Kubernetes/
 RUN dotnet restore Nanny.Main/Nanny.Main.csproj
 COPY . .
