@@ -1,6 +1,5 @@
 # Container Nanny
-Monitoring solution for container jobs scale
-
+Container Nanny is a Kubernetes job autoscaler solution based on queue size.
 
 ### Status
 
@@ -8,68 +7,71 @@ Monitoring solution for container jobs scale
 |-----------------------------------	| ------------------------------ | ------------------------------ | ------------------------------
 | 0.1.0                               | [![Build Status](https://travis-ci.org/CSELATAM/ContainerNanny.svg?branch=master)](https://travis-ci.org/CSELATAM/ContainerNanny) | [![CodeFactor](https://www.codefactor.io/repository/github/cselatam/containernanny/badge)](https://www.codefactor.io/repository/github/cselatam/containernanny) | [![Open Source Love](https://badges.frapsoft.com/os/mit/mit.svg?v=102)](https://github.com/CSELATAM/ContainerNanny/blob/master/LICENSE)
 
+## Work Queue Pattern
+
+As mentioned on the work of Brendan Burns and David Oppenheimer, "[Design patterns for container-based distributed systems](https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/45406.pdf)", the section *Work queue pattern* says:
+
+> *"Although work queues, like leader election, are a well-studied
+subject with many frameworks implementing
+them, they too are an example of a distributed system
+pattern that can benefit from container-oriented architectures.
+In previous systems, the framework limited programs
+to a single language environment (e.g. Celery for
+Python [13]), or the distribution of work and binary were
+exercises left to the implementer (e.g. Condor [21]). The
+availability of containers that implement the run() and
+mount() interfaces makes it fairly straightforward to implement
+a generic work queue framework that can take
+arbitrary processing code packaged as a container, and
+arbitrary data, and build a complete work queue system.
+The developer only has to build a container that can take
+an input data file on the filesystem, and transform it to an
+output file; this container would become one stage of the
+work queue. All of the other work involved in developing
+a complete work queue can be handled by the generic
+work queue framework that can be reused whenever such
+a system is needed. The manner in which a user’s code
+integrates into this shared work queue framework is illustrated
+in Figure 4."*
+> ![brandon-fig4-pattern.png](./imgs/brandon-fig4-pattern.png)
+
+Container Nanny is a *generic
+work queue framework that can be reused whenever such
+a system is needed*. It's developed in C# and it's designed to be highly configurable.
+
 ## Quick Start
+
+TODO: Provider yaml templates and instructions to deploy the solution.
 
 Docker image: [container-nanny:latest](https://hub.docker.com/r/allantargino/container-nanny/)
 
 ## Architecture
 
-### Basic Architecture
+TODO: Describe.
 
-The proposed solution uses an Azure Function to get the message count from a Service Bus Queue. Is is triggered every n minutes. If there is any message, Function calls Kubernetes API in order to scale it up, creating a job on Kube.
+## Project Structure
 
-Every job has the following pattern: It continuously peek, process and delete messages from queue. If there is no messages in a definied interval, the process finishes.
+### Documentation (/docs)
 
-![Basic Architecture](./imgs/architecture1.png)
+TODO: Describe.
 
-### Basic Architecture + DevOps Included
+### Source Code (/src)
 
-The solution above can be extended to embrace a DevOps process. In the following proposed architecture a Jenkins instance is triggered by a git repository. Then it builds the container image and pushes to an Azure Container Registry. Right after, Jenkins calls Kubernetes API and notifies the new container image.
+TODO: Describe.
 
-![Basic Architecture + DevOps Included](./imgs/architecture2.png)
+### Examples (/examples)
 
-## Documentation (/docs):
+The repository also have some examples to help you develop and implement the queue pattern on your client. Currently we have:
 
-0. [Initial Deployment](./docs/0_InitialDeployment.md)
-1. [Kubernetes Setup](./docs/1_KubernetesSetup.md)
-2. [Certificate Setup](./docs/2_CertificateSetup.md)
-3. [SDK Development](./docs/3_SDKDevelopment.md)
-4. [Function Development](./docs/4_FunctionDevelopment.md)
-5. [Deployment and Jobs](./docs/5_DeploymentandJobs.md)
+* azure-service-bus-consumer
+* azure-queue-storage-consumer
 
-## Projects (/src):
+## Roadmap
 
-### Library
-This .NET Full library implements:
-* Authentication
-* Deployments scaling
-* Jobs creation
+The roadmap include the following tasks:
 
-### Function
-The C# Azure Function with the following code snippets:
-* Kube.csx: handles calls to Kuber.NET private assembly
-* Queue.csx: handles calls to Service Bus Queue using its SDK
-* Settings.csx: stores all settings related to the project
-* run.csx: business logic inside container scaling rules
+* Support Kafka as a queue client.
+* Support SQS as a queue client.
+* Use Kubeless to extend scaling rules.
 
-### Example\Queue:
-* Queue.Checker: Check if there is any item in a Queue and use Kuber.NET to increase the number of containers (.NET Full, Project to be deploy inside an Azure Function)
-* Queue.Producer: Inserts items in Service Bus Queue (.NET Full, Simulate other enviroment microservices)
-* Queue.Consumer: Reads items in Service Bus Queue (.NET Core, Simulate container inside Kubernetes)
-
-### Scripts
-Scripts for automation (used in our Jenkins instance).
-* buildandpush.sh: Builds the .NET core project, create the docker image and deploys it to Azure Container Registry.
-* buildimage_example.sh: Example that uses the script above.
-* deployment_template.yaml: Uses a previously built image from Azure Container Registry and creates a Deployment on Kubernetes.
-* job_template.yaml: Uses a previously built image from Azure Container Registry and creates a Job on Kubernetes. 
-
-## References
-* [Azure Functions](https://docs.microsoft.com/en-us/azure/azure-functions/functions-overview)
-* [Azure Container Service](https://docs.microsoft.com/en-us/azure/container-service/kubernetes/)
-* [Azure Container Registry](https://docs.microsoft.com/en-us/azure/container-registry/)
-* [Service Bus Queue](https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-queues-topics-subscriptions)
-* [Kubernetes](https://kubernetes.io/docs/home/)
-* [Kubernetes Jobs](https://kubernetes.io/docs/concepts/workloads/controllers/jobs-run-to-completion/)
-* [Kubernetes API Authentication](https://kubernetes.io/docs/admin/authentication/)
-* [Jenkins integration with ACS and Kubernetes](https://docs.microsoft.com/en-us/azure/container-service/kubernetes/container-service-kubernetes-jenkins)
+If you find any need that the project currently doesn't support, please feel free to open an issue or a pull request!
