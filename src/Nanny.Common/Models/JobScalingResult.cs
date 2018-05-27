@@ -14,6 +14,5 @@ namespace Nanny.Common.Models
             NextCheck = nextCheck;
             JobCount = jobCount;
         }
-
     }
 }

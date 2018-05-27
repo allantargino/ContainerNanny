@@ -18,7 +18,6 @@ namespace Queue.Consumer
 
         public string this[string key] => Configuration[key];
 
-
         public static JsonConfiguration Build(FileInfo jsonFile)
         {
             if (!jsonFile.Exists) throw new FileNotFoundException(nameof(jsonFile), jsonFile.FullName);

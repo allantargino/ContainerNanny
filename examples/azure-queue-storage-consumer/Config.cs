@@ -35,7 +35,6 @@ namespace QueueStorage.Consumer
             return value;
         }
 
-
         class NotConfigured : Exception
         {
             public readonly string Name;
@@ -45,6 +44,5 @@ namespace QueueStorage.Consumer
                 Name = name;
             }
         }
-
     }
 }

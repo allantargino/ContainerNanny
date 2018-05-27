@@ -27,7 +27,6 @@ namespace Nanny.Queue.Clients
             }
 
             _queueClient = _storageAccount.CreateCloudQueueClient();
-            
         }
 
         private async Task<CloudQueue> GetQueueAsync(string name)
@@ -59,15 +58,12 @@ namespace Nanny.Queue.Clients
 
                 if (count > 0)
                 {
-
                     List<CloudQueueMessage> messages = (List<CloudQueueMessage>)await _queue.PeekMessagesAsync(count.Value);
 
                     if (messages.Count < 32)
                         count = messages.Count;
                 }
-
                 Console.WriteLine($"The queue {queueName} has  {count} message(s)!");
-
             }
             catch (Exception ex) {
                 throw new Exception($"Error getting message count: {ex.Message} ");

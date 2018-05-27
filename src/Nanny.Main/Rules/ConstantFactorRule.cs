@@ -11,7 +11,6 @@ namespace Nanny.Main.Rules
         public TimeSpan NextCheck { get; }
         public int ConstantFactor { get; }
 
-
         public ConstantFactorRule(TimeSpan nextCheck, int constantFactor = 1)
         {
             NextCheck = nextCheck;

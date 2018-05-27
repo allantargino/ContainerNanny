@@ -40,7 +40,6 @@ namespace Nanny.Main
             return _config[configName];
         }
 
-
         class NotConfigured : Exception
         {
             public readonly string Name;
@@ -50,6 +49,5 @@ namespace Nanny.Main
                 Name = name;
             }
         }
-
     }
 }
