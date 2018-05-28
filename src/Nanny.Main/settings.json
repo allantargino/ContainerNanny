@@ -6,9 +6,11 @@
   "JOB_CPU_LIMIT": "500m",
   "JOB_MEM_REQUEST": "50Mi",
   "JOB_MEM_LIMIT": "100Mi",
+  "JOB_CONFIGMAP_NAME": "",
   "QUEUE_CONNECTION_STRING": "",
   "QUEUE_NAME": "",
   "K8S_NAMESPACE": "",
   "K8S_CR_SECRET": "",
-  "K8S_CONIFG": "./config"
+  "K8S_CONFIG": "./config",
+  "NANNY_IS_ACTIVE": "true"
 }

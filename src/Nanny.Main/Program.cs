@@ -1,5 +1,7 @@
 ﻿using Nanny.Common.Interfaces;
 using Nanny.Kubernetes;
+using Nanny.Main.Configuration;
+using Nanny.Main.Factories;
 using Nanny.Main.Rules;
 using Nanny.Queue.Clients;
 using System;
@@ -9,90 +11,53 @@ namespace Nanny.Main
 {
     public class Program
     {
-        static Config _config = null;
-
-        static KubeClient kube;
-        static IScalableRule rule;
-        static IQueueClient queueClient;
-
-        static string containerName;
-        static string containerImage;
-        static string k8Namespace;
-        static string k8Secret;
-        static string queueName;
-        static int containerLimit;
-        static string jobCpuRequest;
-        static string jobCpuLimit;
-        static string jobMemRequest;
-        static string jobMemLimit;
-        static string jobConfigMapName;
-
         static async Task Main(string[] args)
         {
-            _config = new Config(args, "dev");
+            var configurationManager = new ConfigurationManager(args);
+            var configuration = ConfigurationValues.GetFromConfigurationManager(configurationManager);
 
-            var connectionString = _config.GetRequired("QUEUE_CONNECTION_STRING");
-            var kubeConfig = _config.GetNotRequired("K8S_CONIFG");
-            queueName = _config.GetRequired("QUEUE_NAME");
+            IQueueClient queueClient = QueueClientFactory.GetQueueClientFromConnectionString(configuration.Queue.ConnectionString);
 
-            containerName = _config.GetRequired("JOB_CONTAINER_NAME");
-            containerImage = _config.GetRequired("JOB_CONTAINER_IMAGE");
-            k8Namespace = _config.GetRequired("K8S_NAMESPACE");
-            k8Secret = _config.GetRequired("K8S_CR_SECRET");
-
-            jobCpuRequest = _config.GetRequired("JOB_CPU_REQUEST");
-            jobCpuLimit = _config.GetRequired("JOB_CPU_LIMIT");
-            jobMemRequest = _config.GetRequired("JOB_MEM_REQUEST");
-            jobMemLimit = _config.GetRequired("JOB_MEM_LIMIT");
-
-            jobConfigMapName = _config.GetRequired("JOB_CONFIGMAP_NAME");
-
-            try
-            {
-                containerLimit = int.Parse(_config.GetRequired("JOB_MAX_POD"));
-            }
-            catch
-            {
-                containerLimit = 5;
-            }
-
-            if (String.IsNullOrWhiteSpace(connectionString)) throw new ApplicationException("Connection String was not provided!!!");
-
-            if (connectionString.IndexOf("AccountName") != -1) //Storage Account
-                queueClient = new StorageQueueClient(connectionString);
+            KubeClient kubeClient;
+            if (String.IsNullOrWhiteSpace(configuration.Kubernetes.KubeConfig))
+                kubeClient = new KubeClient();
             else
-                queueClient = new ServiceBusQueueClient(connectionString); //Service Bus
+                kubeClient = new KubeClient(configuration.Kubernetes.KubeConfig);
 
-            if (String.IsNullOrWhiteSpace(kubeConfig))
-                kube = new KubeClient(); //In-Cluster Config
-            else
-                kube = new KubeClient(kubeConfig);
+            IScalingRule scalingRule = new IncrementRule(new TimeSpan(0, 1, 0));
 
-            rule = new IncrementRule(new TimeSpan(0, 1, 0)); // Scaling rule
-
-            await CheckQueue(rule, queueName);
+            await CheckQueue(queueClient, kubeClient, scalingRule, configuration, configurationManager);
         }
 
-        static async Task CheckQueue(IScalableRule rule, string queueName)
+        static async Task CheckQueue(IQueueClient queueClient, KubeClient kubeClient, IScalingRule scalingRule, ConfigurationValues configuration, ConfigurationManager configurationManager)
         {
             Console.WriteLine("Nanny.Checker is Running.");
 
+            var queueName = configuration.Queue.QueueName;
+
             do
             {
-                var messageCount = await GetMessageCount(queueName);
+                if (!configurationManager.GetNotRequired("NANNY_IS_ACTIVE", defaultValue: true))
+                {
+                    var nextCheck = 60;
+                    Console.WriteLine($"Waiting for {nextCheck} seconds, before checking queue {queueName}");
+                    await Task.Delay(nextCheck * 1000);
+                }
+
+                var messageCount = await queueClient.GetMessageCountAsync(queueName);
                 Console.WriteLine($"There are {messageCount} messages in the queue {queueName}");
 
-                var currentRunningJobs = await GetCurrentRunningJobs(k8Namespace, queueName);
+                var currentRunningJobs = await GetCurrentRunningJobs(kubeClient, configuration.Kubernetes.K8Namespace, queueName);
                 Console.WriteLine($"I have found {messageCount} jobs in Kubernetes");
 
-                if (await isResourceAvailableAsync() && currentRunningJobs < containerLimit)
+                if (await kubeClient.IsResourceAvailableAsync() && currentRunningJobs < configuration.Kubernetes.ContainerLimit)
                 {
-                    var result = rule.GetJobScalingResult(messageCount, currentRunningJobs);
+                    var result = scalingRule.GetJobScalingResult(messageCount, currentRunningJobs);
 
                     if (result.JobCount > 0)
                     {
                         Console.WriteLine($"Creating {result.JobCount} jobs");
-                        await CreateKubeJob(result.JobCount);
+                        await CreateKubeJob(kubeClient, configuration.Kubernetes, queueName, result.JobCount);
                     }
                     Console.WriteLine($"Waiting for {result.NextCheck.TotalSeconds} seconds, before checking queue {queueName}");
                     await Task.Delay(result.NextCheck);
@@ -105,39 +70,25 @@ namespace Nanny.Main
             } while (true);
         }
 
-        private static Task<bool> isResourceAvailableAsync()
-        {
-            return kube.isResourceAvailableAsync();
-        }
-
-        #region Util
-
-        static async Task<long> GetMessageCount(string queueName)
-        {
-            return await queueClient.GetMessageCountAsync(queueName);
-        }
-
-        static async Task CreateKubeJob(int jobCount = 1)
+        static async Task CreateKubeJob(KubeClient kubeClient, ConfigurationKubernetes configuration, string label, int jobCount = 1)
         {
             if (jobCount <= 0) return;
 
-            var configMap = await kube.GetConfigMapListAsync(k8Namespace, jobConfigMapName);
+            var configMap = await kubeClient.GetConfigMapListAsync(configuration.K8Namespace, configuration.JobConfigMapName);
 
             if (configMap == null)
             {
-                throw new ApplicationException($"Configuration Map '{jobConfigMapName}' for the nanny queue {queueName}");
+                throw new ApplicationException($"Configuration Map '{configuration.JobConfigMapName}' for the nanny queue");
             }
 
             var job_name = Guid.NewGuid().ToString();
             Console.WriteLine($"Job {job_name} has been created!");
-            var job = await kube.CreateJobAsync(job_name, jobCount, 1, containerName, containerImage, k8Secret, queueName, configMap.Data, k8Namespace, jobCpuRequest, jobMemRequest, jobCpuLimit, jobMemLimit);
+            var job = await kubeClient.CreateJobAsync(job_name, jobCount, 1, configuration.ContainerName, configuration.ContainerImage, configuration.K8Secret, label, configMap.Data, configuration.K8Namespace, configuration.JobCpuRequest, configuration.JobMemRequest, configuration.JobCpuLimit, configuration.JobMemLimit);
         }
 
-        static async Task<int> GetCurrentRunningJobs(string _namespace = "default", string label = "")
+        static async Task<int> GetCurrentRunningJobs(KubeClient kubeClient, string _namespace, string labelSelector = "")
         {
-            return await kube.GetActivePodCountFromNamespaceAsync(_namespace, label);
+            return await kubeClient.GetActivePodCountFromNamespaceAsync(_namespace, labelSelector);
         }
-
-        #endregion
     }
 }
