@@ -14,7 +14,7 @@ namespace Nanny.Main
         static async Task Main(string[] args)
         {
             var configurationManager = new ConfigurationManager(args);
-            var configuration = GetConfigurationValues(configurationManager);
+            var configuration = ConfigurationValues.GetFromConfigurationManager(configurationManager);
 
             IQueueClient queueClient = QueueClientFactory.GetQueueClientFromConnectionString(configuration.Queue.ConnectionString);
 
@@ -26,40 +26,10 @@ namespace Nanny.Main
 
             IScalingRule scalingRule = new IncrementRule(new TimeSpan(0, 1, 0));
 
-            await CheckQueue(queueClient, kubeClient, scalingRule, configuration);
+            await CheckQueue(queueClient, kubeClient, scalingRule, configuration, configurationManager);
         }
 
-        static ConfigurationValues GetConfigurationValues(ConfigurationManager configurationManager)
-        {
-            return new ConfigurationValues()
-            {
-                Queue = new ConfigurationQueue()
-                {
-                    ConnectionString = configurationManager.GetRequired("QUEUE_CONNECTION_STRING"),
-                    QueueName = configurationManager.GetRequired("QUEUE_NAME"),
-                },
-                Kubernetes = new ConfigurationKubernetes()
-                {
-                    KubeConfig = configurationManager.GetNotRequired("K8S_CONFIG", string.Empty),
-                    ContainerName = configurationManager.GetRequired("JOB_CONTAINER_NAME"),
-                    ContainerImage = configurationManager.GetRequired("JOB_CONTAINER_IMAGE"),
-                    K8Namespace = configurationManager.GetNotRequired("K8S_NAMESPACE", "default"),
-                    K8Secret = configurationManager.GetRequired("K8S_CR_SECRET"),
-                    JobCpuRequest = configurationManager.GetRequired("JOB_CPU_REQUEST"),
-                    JobCpuLimit = configurationManager.GetRequired("JOB_CPU_LIMIT"),
-                    JobMemRequest = configurationManager.GetRequired("JOB_MEM_REQUEST"),
-                    JobMemLimit = configurationManager.GetRequired("JOB_MEM_LIMIT"),
-                    JobConfigMapName = configurationManager.GetRequired("JOB_CONFIGMAP_NAME"),
-                    ContainerLimit = configurationManager.GetNotRequired("JOB_MAX_POD", 5)
-                },
-                Nanny = new ConfigurationNanny()
-                {
-                    IsActive = configurationManager.GetNotRequired("NANNY_IS_ACTIVE", true)
-                }
-            };
-        }
-
-        static async Task CheckQueue(IQueueClient queueClient, KubeClient kubeClient, IScalingRule scalingRule, ConfigurationValues configuration)
+        static async Task CheckQueue(IQueueClient queueClient, KubeClient kubeClient, IScalingRule scalingRule, ConfigurationValues configuration, ConfigurationManager configurationManager)
         {
             Console.WriteLine("Nanny.Checker is Running.");
 
@@ -67,6 +37,13 @@ namespace Nanny.Main
 
             do
             {
+                if (configurationManager.GetNotRequired("NANNY_IS_PAUSED", false))
+                {
+                    var nextCheck = 60;
+                    Console.WriteLine($"Waiting for {nextCheck} seconds, before checking queue {queueName}");
+                    await Task.Delay(nextCheck * 1000);
+                }
+
                 var messageCount = await queueClient.GetMessageCountAsync(queueName);
                 Console.WriteLine($"There are {messageCount} messages in the queue {queueName}");
 
@@ -93,8 +70,6 @@ namespace Nanny.Main
             } while (true);
         }
 
-        #region Util
-
         static async Task CreateKubeJob(KubeClient kubeClient, ConfigurationKubernetes configuration, string label, int jobCount = 1)
         {
             if (jobCount <= 0) return;
@@ -115,7 +90,5 @@ namespace Nanny.Main
         {
             return await kubeClient.GetActivePodCountFromNamespaceAsync(_namespace, labelSelector);
         }
-
-        #endregion
     }
 }

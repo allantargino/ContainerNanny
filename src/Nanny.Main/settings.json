@@ -12,5 +12,5 @@
   "K8S_NAMESPACE": "",
   "K8S_CR_SECRET": "",
   "K8S_CONFIG": "./config",
-  "NANNY_IS_ACTIVE": "true"
+  "NANNY_IS_PAUSED": "false"
 }

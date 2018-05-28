@@ -6,6 +6,5 @@ namespace Nanny.Main.Configuration
 {
     public class ConfigurationNanny
     {
-        public bool IsActive { get; set; }
     }
 }
