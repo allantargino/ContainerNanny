@@ -3,12 +3,12 @@ kind: ConfigMap
 metadata:
   name: pdftoimage-config
 data:
-  QUEUE_CONNECTION_STRING : 
-  QUEUE_NAME : 
+  QUEUE_CONNECTION_STRING : ""
+  QUEUE_NAME : ""
   K8S_CONIFG : ./config-syncweek
-  K8S_NAMESPACE : 
-  K8S_CR_SECRET : 
-  JOB_CONTAINER_NAME : 
+  K8S_NAMESPACE : ""
+  K8S_CR_SECRET : ""
+  JOB_CONTAINER_NAME : ""
   JOB_CONTAINER_IMAGE : atldev.azurecr.io/pdftoimage
   JOB_MAX_POD : "10"
   JOB_CPU_REQUEST : "250m"
