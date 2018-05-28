@@ -37,7 +37,7 @@ namespace Nanny.Main
 
             do
             {
-                if (configurationManager.GetNotRequired("NANNY_IS_PAUSED", false))
+                if (!configurationManager.GetNotRequired("NANNY_IS_ACTIVE", defaultValue: true))
                 {
                     var nextCheck = 60;
                     Console.WriteLine($"Waiting for {nextCheck} seconds, before checking queue {queueName}");
