@@ -4,7 +4,7 @@
 set -e
 
 # Try to compile all examples
-find ./examples -name *.csproj -exec dotnet build {} \;
+find ./examples -name '*.csproj' -exec dotnet build {} \;
 
 # Build main project
 dotnet build
