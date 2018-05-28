@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Nanny.Main.Rules
 {
-    class IncrementRule : IScalableRule
+    class IncrementRule : IScalingRule
     {
         public TimeSpan NextCheck { get; }
 

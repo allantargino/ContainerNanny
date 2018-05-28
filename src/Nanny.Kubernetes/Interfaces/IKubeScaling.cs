@@ -18,6 +18,6 @@ namespace Nanny.Kubernetes.Interfaces
         Task<V1ConfigMap> GetConfigMapListAsync(string _namespace, string configMapListName);
 
         //Kluster
-        Task<bool> isResourceAvailableAsync();
+        Task<bool> IsResourceAvailableAsync();
     }
 }

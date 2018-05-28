@@ -144,7 +144,7 @@ namespace Nanny.Kubernetes
             return count;
         }
 
-        public async Task<bool> isResourceAvailableAsync()
+        public async Task<bool> IsResourceAvailableAsync()
         {
             //TODO: Call the api to check if there is resources (CPU Request and Memory) available to the cluster
             return await Task.FromResult(true);

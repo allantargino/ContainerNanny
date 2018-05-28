@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Nanny.Main.Rules
 {
-    class ConstantFactorRule : IScalableRule
+    class ConstantFactorRule : IScalingRule
     {
         public TimeSpan NextCheck { get; }
         public int ConstantFactor { get; }

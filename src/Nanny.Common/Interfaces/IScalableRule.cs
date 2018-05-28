@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Nanny.Common.Interfaces
 {
-    public interface IScalableRule
+    public interface IScalingRule
     {
         JobScalingResult GetJobScalingResult(long messageCount, int currentRunningJobs);
     }
