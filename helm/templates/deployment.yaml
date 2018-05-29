@@ -24,6 +24,70 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           resources:
+          env:
+          - name: QUEUE_CONNECTION_STRING
+            valueFrom:
+              configMapKeyRef:
+                name: {{ template "container-nanny.fullname" . }}
+                key: QUEUE_CONNECTION_STRING
+          - name: QUEUE_NAME
+            valueFrom:
+              configMapKeyRef:
+                name: {{ template "container-nanny.fullname" . }}
+                key : QUEUE_NAME
+          - name: K8S_NAMESPACE
+            valueFrom:
+              configMapKeyRef:
+                name: {{ template "container-nanny.fullname" . }}
+                key : K8S_NAMESPACE
+          - name: K8S_CR_SECRET
+            valueFrom:
+              configMapKeyRef:
+                name: {{ template "container-nanny.fullname" . }}
+                key : K8S_CR_SECRET
+          - name: JOB_CONTAINER_NAME
+            valueFrom:
+              configMapKeyRef:
+                name: {{ template "container-nanny.fullname" . }}
+                key : JOB_CONTAINER_NAME
+          - name: JOB_CONTAINER_IMAGE
+            valueFrom:
+              configMapKeyRef:
+                name: {{ template "container-nanny.fullname" . }}
+                key : JOB_CONTAINER_IMAGE
+          - name: JOB_MAX_POD
+            valueFrom:
+              configMapKeyRef:
+                name: {{ template "container-nanny.fullname" . }}
+                key : JOB_MAX_POD
+          - name: JOB_CPU_REQUEST
+            valueFrom:
+              configMapKeyRef:
+                name: {{ template "container-nanny.fullname" . }}
+                key : JOB_CPU_REQUEST
+          - name: JOB_CPU_LIMIT
+            valueFrom:
+              configMapKeyRef:
+                name: {{ template "container-nanny.fullname" . }}
+                key : JOB_CPU_LIMIT
+          - name: JOB_MEM_REQUEST
+            valueFrom:
+              configMapKeyRef:
+                name: {{ template "container-nanny.fullname" . }}
+                key : JOB_MEM_REQUEST
+          - name: JOB_MEM_LIMIT
+            valueFrom:
+              configMapKeyRef:
+                name: {{ template "container-nanny.fullname" . }}
+                key : JOB_MEM_LIMIT
+          {{- if .Values.settings.JOB_CONFIGMAP_NAME }}
+          - name: JOB_CONFIGMAP_NAME
+            valueFrom:
+              configMapKeyRef:
+                name: {{ template "container-nanny.fullname" . }}
+                key : JOB_CONFIGMAP_NAME
+          {{- end }}
+          resources:
 {{ toYaml .Values.resources | indent 12 }}
     {{- with .Values.nodeSelector }}
       nodeSelector:
