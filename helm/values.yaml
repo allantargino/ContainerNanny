@@ -21,7 +21,7 @@ settings:
   JOB_CPU_LIMIT : 500m
   JOB_MEM_REQUEST : 50Mi
   JOB_MEM_LIMIT : 100Mi
-  JOB_CONFIGMAP_NAME: 
+  JOB_CONFIGMAP_NAME:
 resources: {}
 
 nodeSelector: {}
