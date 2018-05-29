@@ -1,0 +1,19 @@
+﻿apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "container-nanny.fullname" . }}
+data:
+  QUEUE_CONNECTION_STRING : {{ .Values.settings.QUEUE_CONNECTION_STRING | quote }}
+  QUEUE_NAME : {{ .Values.settings.QUEUE_NAME | quote }}
+  K8S_NAMESPACE : {{ .Values.settings.K8S_NAMESPACE | quote }}
+  K8S_CR_SECRET : {{ .Values.settings.K8S_CR_SECRET | quote }}
+  JOB_CONTAINER_NAME : {{ .Values.settings.JOB_CONTAINER_NAME | quote }}
+  JOB_CONTAINER_IMAGE : {{ .Values.settings.JOB_CONTAINER_IMAGE | quote }}
+  JOB_MAX_POD : {{ .Values.settings.JOB_MAX_POD | quote }}
+  JOB_CPU_REQUEST : {{ .Values.settings.JOB_CPU_REQUEST | quote }}
+  JOB_CPU_LIMIT : {{ .Values.settings.JOB_CPU_LIMIT | quote }}
+  JOB_MEM_REQUEST :  {{ .Values.settings.JOB_MEM_REQUEST | quote }}
+  JOB_MEM_LIMIT : {{ .Values.settings.JOB_MEM_LIMIT | quote }}
+  {{- if .Values.settings.JOB_CONFIGMAP_NAME }}
+  JOB_CONFIGMAP_NAME: {{ .Values.settings.JOB_CONFIGMAP_NAME | quote }}
+  {{- end }}
