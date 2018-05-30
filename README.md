@@ -41,9 +41,15 @@ a system is needed*. It's developed in C# and it's designed to be highly configu
 
 ## Quick Start
 
-TODO: Provider yaml templates and instructions to deploy the solution.
+Use the following `helm` command to install it:
 
-Docker image: [container-nanny:latest](https://hub.docker.com/r/allantargino/container-nanny/)
+```bash
+helm install https://github.com/CSELATAM/ContainerNanny/releases/download/v0.1.0/helm-container-nanny-0.1.0.tgz \
+	--set settings.QUEUE_CONNECTION_STRING="YOUR VALUES" \
+	--set settings.QUEUE_NAME="YOUR VALUES" \
+	--set settings.K8S_CR_SECRET="YOUR VALUES" \
+	--set settings.JOB_CONTAINER_IMAGE="YOUR VALUES"
+```
 
 ## Architecture
 
