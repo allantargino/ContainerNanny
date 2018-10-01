@@ -25,7 +25,7 @@ namespace Nanny.Queue.Utils
         
         private static string CreateToken(string resourceUri, string keyName, string key, double validFor)
         {
-            TimeSpan sinceEpoch = DateTime.UtcNow - new DateTime(1070, 1, 1);
+            TimeSpan sinceEpoch = DateTime.UtcNow - new DateTime(1970, 1, 1);
             var expiry = Convert.ToString((int)sinceEpoch.TotalSeconds + validFor);
             string stringToSign = HttpUtility.UrlEncode(resourceUri) + "\n" + expiry;
             HMACSHA256 hmac = new HMACSHA256(Encoding.UTF8.GetBytes(key));
